@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">SKB_Attendance</string>
+    <string name="emailTitle">Почта</string>
+    <string name="passwordTitle">Пароль</string>
+    <string name="loginButtonTitle">Войти</string>
+    <string name="forgot_password"><u>Забыли пароль?</u></string>
+    <string name="loginHeader">Вход в аккаунт</string>
+    <string name="registrationButtonTitle">Зарегистрироваться</string>
+    <string name="incorrect_format">*Неверный формат</string>
+    <string name="incorrect_format_pass">*Пароль должен быть не короче 8 символов\nи включать хотя бы одну цифру</string>
+    <string name="registrationHeader">Создать аккаунт</string>
+    <string name="nameTitle">Имя пользователя</string>
+    <string name="haveAcc_text">Уже есть аккаунт</string>
+
+    <string name="recover_pass">Восстановить пароль</string>
+    <string name="recover_description">Вам на почту был отправлен\nкод для восстановления</string>
+    <string name="code_hint">Введите код</string>
+    <string name="incorrect_code">*неверный код</string>
+    <string name="new_code"><u>выслать новый код</u></string>
+    <string name="time_to_code">повторный код через </string>
+    <string name="confButton">Подтвердить</string>
+</resources>
