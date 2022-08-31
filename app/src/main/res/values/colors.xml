@@ -19,4 +19,6 @@
     <color name="regist_errorTextColor">#F31E0F</color>
     <color name="regist_text">#000000</color>
     <color name="regist_hint">#818181</color>
+
+    <color name="news_item_back">#818181</color>
 </resources>

@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputLayout
 import ru.bratusevd.skb_attendance.R
+import ru.bratusevd.skb_attendance.mainScreen.MainScreenActivity
 import ru.bratusevd.skb_attendance.registration.RegistrationActivity
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -112,8 +113,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     private fun onLoginCLick() {
-        if(checkLogin()) Toast.makeText(applicationContext, "Login success", Toast.LENGTH_SHORT).show()
-        else Toast.makeText(applicationContext, "Login error", Toast.LENGTH_SHORT).show()
+        if(checkLogin()) startActivity(Intent(applicationContext, MainScreenActivity::class.java))
     }
 
     private fun onRegistrationCLick() {

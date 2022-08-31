@@ -7,6 +7,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.login.LoginActivity
 import java.util.regex.Matcher
@@ -35,6 +36,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.regist_activity)
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         findViews()
     }
 

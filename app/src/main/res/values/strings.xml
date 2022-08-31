@@ -19,4 +19,6 @@
     <string name="new_code"><u>выслать новый код</u></string>
     <string name="time_to_code">повторный код через </string>
     <string name="confButton">Подтвердить</string>
+    <string name="account">Аккаунт</string>
+    <string name="news">Новости</string>
 </resources>
