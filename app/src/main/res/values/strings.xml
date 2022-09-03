@@ -26,4 +26,7 @@
     <string name="default_name">Братусев Денис</string>
     <string name="story_title">История посещений :</string>
     <string name="default_date">10.11.2022</string>
+    <string name="enter_new_password">введите новый пароль</string>
+    <string name="password_repeat">Повторите пароль</string>
+    <string name="diffPassword">Пароли отличаются</string>
 </resources>

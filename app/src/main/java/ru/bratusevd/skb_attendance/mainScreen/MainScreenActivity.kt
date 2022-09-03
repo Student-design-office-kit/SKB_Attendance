@@ -1,5 +1,7 @@
 package ru.bratusevd.skb_attendance.mainScreen
 
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -9,15 +11,16 @@ import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.AccountFragment
 import ru.bratusevd.skb_attendance.mainScreen.news.NewsFragment
 
-
 class MainScreenActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var bottomNavigationView: BottomNavigationView
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_screen_activity)
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         bottomNavigationView = findViewById(R.id.mainScreenActivity_NavigationView)

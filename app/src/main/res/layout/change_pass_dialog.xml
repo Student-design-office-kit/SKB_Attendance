@@ -12,7 +12,7 @@
         android:layout_marginTop="19dp"
         android:layout_marginRight="28dp"
         android:text="@string/recover_pass"
-        android:textColor="@color/regist_text"
+        android:textColor="@color/login_text"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -22,60 +22,79 @@
         android:layout_marginLeft="28dp"
         android:layout_marginTop="31dp"
         android:layout_marginRight="28dp"
-        android:text="@string/recover_description"
-        android:textColor="@color/regist_text"
+        android:text="@string/enter_new_password"
+        android:textColor="@color/login_text"
         android:textSize="20sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/codeInputLayout"
+        android:id="@+id/change_passLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="28dp"
-        android:layout_marginTop="43dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="28dp"
         app:hintEnabled="false">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/code_input"
+            android:id="@+id/change_pass_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:maxLength="4"
-            android:hint="@string/code_hint"
-            android:textColor="@color/regist_text"
+            android:hint="@string/passwordTitle"
+            android:inputType="textPassword"
+            android:textColor="@color/login_text"
             android:textSize="20sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/recover_pas_des"
+        android:id="@+id/change_pass_des"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="45dp"
         android:layout_marginTop="5dp"
-        android:text="@string/incorrect_code"
-        android:textColor="@color/regist_errorTextColor"
+        android:text="@string/incorrect_format_pass"
+        android:textColor="@color/login_errorTextColor"
         android:visibility="invisible" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/change_passRepLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="28dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="28dp"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/change_password_repeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/password_repeat"
+            android:inputType="textPassword"
+            android:textColor="@color/login_text"
+            android:textSize="20sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <TextView
-        android:id="@+id/timerText"
+        android:id="@+id/change_passRepDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="18dp"
-        android:enabled="false"
-        android:textColor="@color/regist_hint"
-        android:textSize="20sp" />
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="5dp"
+        android:text="@string/diffPassword"
+        android:textColor="@color/login_errorTextColor"
+        android:visibility="invisible" />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/forgot_confButton"
+        android:id="@+id/change_confButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="28dp"
         android:layout_marginTop="40dp"
         android:layout_marginRight="28dp"
-        android:layout_marginBottom="55dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/login_button"
         android:minHeight="70dp"
         android:text="@string/confButton"
