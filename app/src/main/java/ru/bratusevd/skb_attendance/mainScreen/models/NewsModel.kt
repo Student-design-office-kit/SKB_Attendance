@@ -5,20 +5,20 @@ class NewsModel(
     private var description: String,
     private var header: String,
     private var dataText: String
-){
-    fun getImage() : String{
+) {
+    fun getImage(): String {
         return images
     }
 
-    fun getDescription() : String{
+    fun getDescription(): String {
         return description
     }
 
-    fun getHeader() : String{
+    fun getHeader(): String {
         return header
     }
 
-    fun getDataText() : String{
+    fun getDataText(): String {
         return dataText
     }
 }

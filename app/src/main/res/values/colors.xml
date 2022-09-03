@@ -21,4 +21,8 @@
     <color name="regist_hint">#818181</color>
 
     <color name="news_item_back">#818181</color>
+    <color name="accountName">#FFFFFF</color>
+
+    <color name="storyProgressColor">#1FB0F3</color>
+    <color name="red">#FF1100</color>
 </resources>

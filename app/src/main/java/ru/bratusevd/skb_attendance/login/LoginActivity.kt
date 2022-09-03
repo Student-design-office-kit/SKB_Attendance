@@ -1,5 +1,6 @@
 package ru.bratusevd.skb_attendance.login
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -8,11 +9,9 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.textfield.TextInputLayout
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.MainScreenActivity
 import ru.bratusevd.skb_attendance.registration.RegistrationActivity
@@ -72,10 +71,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener{
     }
 
     private fun onForgotCLick() {
-        createCodeBottomSheetDialog()?.show()
+        createCodeBottomSheetDialog().show()
     }
 
-    private fun createCodeBottomSheetDialog(): BottomSheetDialog? {
+    @SuppressLint("InflateParams")
+    private fun createCodeBottomSheetDialog(): BottomSheetDialog {
         val sheetDialog = BottomSheetDialog(this)
         val view: View = layoutInflater.inflate(R.layout.forgot_pass_dialog_code, null, false)
         val code_input = view.findViewById<EditText>(R.id.code_input)
@@ -98,6 +98,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener{
 
     private fun setTimer(timeMs: Int, timer: TextView) {
         object : CountDownTimer(timeMs.toLong(), 1000) {
+            @SuppressLint("SetTextI18n")
             override fun onTick(millisUntilFinished: Long) {
                 timer.text = resources.getString(R.string.time_to_code) + " 0:" + String.format(
                     "%02d",

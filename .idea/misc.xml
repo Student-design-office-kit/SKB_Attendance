@@ -6,13 +6,15 @@
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/drawable/login_button.xml" value="0.106" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/drawable/news_corners.xml" value="0.106" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/activity_qr_scanner.xml" value="0.17552083333333332" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/forgot_pass_dialog_code.xml" value="0.17552083333333332" />
-        <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/fragment_account.xml" value="0.17552083333333332" />
+        <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/fragment_account.xml" value="0.14666666666666667" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/fragment_news.xml" value="0.17552083333333332" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/login_activity.xml" value="0.22" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/main_screen_activity.xml" value="0.17552083333333332" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/news_item.xml" value="0.17552083333333332" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/regist_activity.xml" value="0.17552083333333332" />
+        <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/layout/story_item.xml" value="0.17552083333333332" />
         <entry key="..\:/Projects/Android/SKB_Attendance/app/src/main/res/menu/main_screen_nav_view.xml" value="0.17552083333333332" />
       </map>
     </option>

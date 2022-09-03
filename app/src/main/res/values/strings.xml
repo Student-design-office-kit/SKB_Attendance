@@ -21,4 +21,9 @@
     <string name="confButton">Подтвердить</string>
     <string name="account">Аккаунт</string>
     <string name="news">Новости</string>
+    <string name="scanText">Отсканируйте QR–код</string>
+    <string name="scanner_error">"Этот QR-код не подходит,\nпожалуйста попробуйте другой"</string>
+    <string name="default_name">Братусев Денис</string>
+    <string name="story_title">История посещений :</string>
+    <string name="default_date">10.11.2022</string>
 </resources>

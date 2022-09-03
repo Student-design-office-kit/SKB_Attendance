@@ -1,7 +1,6 @@
 package ru.bratusevd.skb_attendance.mainScreen.adapters
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -31,9 +30,9 @@ class NewsAdapter(context: Context, newsList: ArrayList<NewsModel>) : BaseAdapte
     }
 
     @SuppressLint("InflateParams")
-    override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View? {
+    override fun getView(position: Int, convertView: View?, viewGroup: ViewGroup?): View {
         var view: View? = convertView
-        var newsModel: NewsModel = getItem(position)
+        val newsModel: NewsModel = getItem(position)
         val mInflater = LayoutInflater.from(mContext)
         if (view == null) {
             view = mInflater.inflate(R.layout.news_item, null)

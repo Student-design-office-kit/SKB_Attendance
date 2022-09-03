@@ -1,12 +1,12 @@
 package ru.bratusevd.skb_attendance.registration
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.login.LoginActivity
