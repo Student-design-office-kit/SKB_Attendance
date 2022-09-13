@@ -1,65 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    tools:ignore="ContentDescription"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    tools:ignore="ContentDescription">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/purple_200">
+        android:background="#8B0CE4">
+
+        <ImageView
+            android:id="@+id/accountFragment_menu"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/ic_account_menu"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/accountFragment_scanner"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_margin="20dp"
             android:background="@drawable/ic_qr_scanner"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_margin="20dp"/>
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/accountFragment_userImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:background="@drawable/ic_account"
-            app:layout_constraintTop_toBottomOf="@id/accountFragment_scanner"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            app:cardCornerRadius="90dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginTop="40dp"/>
+            app:layout_constraintTop_toBottomOf="@id/accountFragment_scanner">
+
+            <ImageView
+                android:id="@+id/accountFragment_userImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp" />
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/accountFragment_userName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/accountFragment_userImage"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="25dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/default_name"
             android:textColor="@color/accountName"
             android:textSize="24sp"
-            android:text="@string/default_name"/>
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardImage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:textColor="@color/login_text"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        android:text="@string/story_title"/>
-
-    <ListView
-        android:id="@+id/accountFragment_storyList"
+    <ViewFlipper
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_marginTop="20dp"/>
+        android:layout_height="match_parent">
+
+        <!--<ListView
+            android:id="@+id/accountFragment_storyList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical"/>-->
+
+
+    </ViewFlipper>
 
 </LinearLayout>

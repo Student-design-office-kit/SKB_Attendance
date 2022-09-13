@@ -9,6 +9,8 @@ import android.widget.ImageView
 import android.widget.ListView
 import android.widget.TextView
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.utils.QR_Scanner
 import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
@@ -43,8 +45,16 @@ class AccountFragment : Fragment() {
         userName = root!!.findViewById(R.id.accountFragment_userName)
         storyList = root!!.findViewById(R.id.accountFragment_storyList)
 
+        setUserImage()
         setAdapter()
         setOnClick()
+    }
+
+    private fun setUserImage(){
+        Glide.with(this)
+            .load("https://i.pinimg.com/736x/72/58/50/7258501d265d2abfc732620c7a9dbcdf.jpg")
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(userImage);
     }
 
     private fun setAdapter() {
