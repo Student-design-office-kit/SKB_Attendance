@@ -66,15 +66,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!--<ListView
+        <ListView
             android:id="@+id/accountFragment_storyList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
-            android:orientation="vertical"/>-->
-
-
+            android:orientation="vertical"/>
     </ViewFlipper>
 
 </LinearLayout>

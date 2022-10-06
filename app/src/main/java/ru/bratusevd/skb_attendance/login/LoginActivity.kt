@@ -16,6 +16,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.MainScreenActivity
 import ru.bratusevd.skb_attendance.registration.RegistrationActivity
+import ru.bratusevd.skb_attendance.services.network.NetworkHelper
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -48,6 +49,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun findViews() {
+        NetworkHelper().login()
         loginButton = findViewById(R.id.loginActivity_loginButton)
         registrationButton = findViewById(R.id.loginActivity_registrationButton)
         forgotText = findViewById(R.id.loginActivity_forgotText)
