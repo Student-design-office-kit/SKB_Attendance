@@ -49,7 +49,6 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun findViews() {
-        NetworkHelper().login()
         loginButton = findViewById(R.id.loginActivity_loginButton)
         registrationButton = findViewById(R.id.loginActivity_registrationButton)
         forgotText = findViewById(R.id.loginActivity_forgotText)
