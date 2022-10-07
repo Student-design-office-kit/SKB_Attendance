@@ -36,8 +36,8 @@ class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapt
         val timeModel: TimeModel = getItem(position)
 
         val currentTime: Date = Calendar.getInstance().time
-        val curTime: String = currentTime.hours.toString() + ":" + currentTime.minutes
-
+        //var curTime: String = currentTime.hours.toString() + ":" + currentTime.minutes
+        /*if(timeModel.getEndTime() != null)*/var curTime = timeModel.getEndTime()
         val mInflater = LayoutInflater.from(mContext)
         if (view == null) {
             view = mInflater.inflate(R.layout.story_item, null)

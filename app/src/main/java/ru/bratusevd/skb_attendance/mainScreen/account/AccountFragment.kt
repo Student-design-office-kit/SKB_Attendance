@@ -71,22 +71,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun fillArray(): ArrayList<TimeModel> {
-        val timeModels: ArrayList<TimeModel> = ArrayList()
-        timeModels.add(TimeModel("10:20", "04.03.22"))
-        timeModels.add(TimeModel("12:20", "04.03.22"))
-        timeModels.add(TimeModel("13:20", "04.03.22"))
-        timeModels.add(TimeModel("11:20", "04.03.22"))
-        timeModels.add(TimeModel("9:20", "04.03.22"))
-        timeModels.add(TimeModel("7:20", "04.03.22"))
-        timeModels.add(TimeModel("9:20", "04.03.22"))
-        timeModels.add(TimeModel("8:20", "04.03.22"))
-        timeModels.add(TimeModel("11:20", "04.03.22"))
-        timeModels.add(TimeModel("10:20", "04.03.22"))
-        timeModels.add(TimeModel("13:20", "04.03.22"))
-        timeModels.add(TimeModel("14:20", "04.03.22"))
-        timeModels.add(TimeModel("10:20", "04.03.22"))
-        timeModels.add(TimeModel("9:20", "04.03.22"))
-        timeModels.add(TimeModel("12:20", "04.03.22"))
+        val timeModels: ArrayList<TimeModel> = tokenModel.getVisits()
         return timeModels
     }
 
