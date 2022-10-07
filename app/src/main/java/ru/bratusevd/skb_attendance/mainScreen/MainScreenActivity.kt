@@ -28,25 +28,34 @@ class MainScreenActivity : AppCompatActivity(),
         bottomNavigationView.setOnNavigationItemSelectedListener(this@MainScreenActivity)
         bottomNavigationView.selectedItemId = R.id.navigation_news
 
-        val tokenModel = intent.getSerializableExtra("userInfo") as? TokenModel
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.navigation_news -> {
+                val fragment = NewsFragment()
+                fragment.arguments = passData()
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.mainScreenActivity_Container, NewsFragment())
+                    .replace(R.id.mainScreenActivity_Container, fragment)
                     .addToBackStack("").commit()
                 return true
             }
             R.id.navigation_account -> {
+                val fragment = AccountFragment()
+                fragment.arguments = passData()
                 supportFragmentManager.beginTransaction()
-                    .replace(R.id.mainScreenActivity_Container, AccountFragment())
+                    .replace(R.id.mainScreenActivity_Container, fragment)
                     .addToBackStack("").commit()
                 return true
             }
         }
         return false
+    }
+
+    private fun passData(): Bundle{
+        val bundle = Bundle()
+        bundle.putSerializable("tokenModel", intent.getSerializableExtra("userInfo"))
+        return bundle
     }
 
     override fun onBackPressed() {

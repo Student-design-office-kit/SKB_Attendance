@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import retrofit2.Call
@@ -68,19 +69,28 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     }
 
 
-    fun register() {
-        val registrationModel = RegistrationModel(
-            "mail@mail.ru",
-            "password", "Denis", "Bratusev", "", ""
-        )
+    private fun register(registrationModel: RegistrationModel) {
         NetworkServices.getInstance().jsonApi.registration(registrationModel)
             .enqueue(object : Callback<Void?> {
                 override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
-                    startActivity(Intent(applicationContext, LoginActivity::class.java))
-                    finish()
+                    if (response.code() in 200..299) {
+                        Toast.makeText(
+                            applicationContext,
+                            "Регистрация успешна завершена",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        startActivity(Intent(applicationContext, LoginActivity::class.java))
+                        finish()
+                    } else {
+                        Toast.makeText(applicationContext, "Ошибка регистрации", Toast.LENGTH_SHORT)
+                            .show()
+                    }
                 }
 
-                override fun onFailure(call: Call<Void?>, t: Throwable) {}
+                override fun onFailure(call: Call<Void?>, t: Throwable) {
+                    Toast.makeText(applicationContext, "Ошибка регистрации ${t.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
             })
     }
 
@@ -98,7 +108,16 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun onRegistrationCLick() {
         if (checkRegistration()) {
-            register()
+            register(
+                RegistrationModel(
+                    getText(mailEditText),
+                    getText(passEditText),
+                    getText(nameEditText).split(" ")[0],
+                    getText(nameEditText).split(" ")[1],
+                    "",
+                    ""
+                )
+            )
         }
     }
 

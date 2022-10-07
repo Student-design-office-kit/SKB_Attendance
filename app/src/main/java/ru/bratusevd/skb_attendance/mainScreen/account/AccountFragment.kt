@@ -18,6 +18,7 @@ import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.utils.QR_Scanner
 import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
 import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
+import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.models.VisitModel
 import ru.bratusevd.skb_attendance.services.network.NetworkServices
 
@@ -31,6 +32,7 @@ class AccountFragment : Fragment() {
     private lateinit var storyList: ListView
 
     private val SCANNER_REQUEST = 1
+    private lateinit var tokenModel: TokenModel
 
     fun AccountFragment() {}
 
@@ -40,6 +42,7 @@ class AccountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         root = inflater.inflate(R.layout.fragment_account, container, false)
+        tokenModel = arguments?.getSerializable("tokenModel") as TokenModel
         findViews()
         return root
     }
@@ -50,6 +53,7 @@ class AccountFragment : Fragment() {
         userName = root!!.findViewById(R.id.accountFragment_userName)
         storyList = root!!.findViewById(R.id.accountFragment_storyList)
 
+        userName.text = tokenModel.getName()
         setUserImage()
         setAdapter()
         setOnClick()

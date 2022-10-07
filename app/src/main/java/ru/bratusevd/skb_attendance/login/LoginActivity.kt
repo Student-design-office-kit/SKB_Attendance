@@ -166,17 +166,19 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun onLoginCLick() {
-        if (checkLogin()) login()
+        if (checkLogin()) login(LoginModel(getText(mailEditText), getText(passEditText)))
     }
 
-    private fun login() {
-        val loginModel = LoginModel("email5@mail.ru", "password")
+    private fun login(loginModel: LoginModel) {
         NetworkServices.getInstance().jsonApi.login(loginModel).enqueue(object : Callback<ArrayList<TokenModel>> {
                 override fun onResponse(call: Call<ArrayList<TokenModel>>, response: Response<ArrayList<TokenModel>>) {
-                    Toast.makeText(applicationContext, response.code().toString(), Toast.LENGTH_SHORT).show()
-                    val intent = Intent(applicationContext, MainScreenActivity::class.java)
-                    intent.putExtra("userInfo", response.body()[0])
-                    startActivity(intent)
+                    if (response.code() in 200..299){
+                        val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                        intent.putExtra("userInfo", response.body()[0])
+                        startActivity(intent)
+                    }else{
+                        Toast.makeText(applicationContext, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 override fun onFailure(call: Call<ArrayList<TokenModel>>, t: Throwable) {}
             })
