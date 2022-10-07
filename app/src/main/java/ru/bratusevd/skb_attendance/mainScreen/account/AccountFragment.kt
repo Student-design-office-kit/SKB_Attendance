@@ -11,10 +11,15 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.utils.QR_Scanner
 import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
 import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
+import ru.bratusevd.skb_attendance.models.VisitModel
+import ru.bratusevd.skb_attendance.services.network.NetworkServices
 
 class AccountFragment : Fragment() {
 
@@ -110,6 +115,16 @@ class AccountFragment : Fragment() {
     }
 
     private fun checkIn(link: String) {
-
+        val visitModel = VisitModel(
+            "6246f8e3d9450d1330d4ef77", "06.10.2022",
+            "15:00", "16:00"
+        )
+        NetworkServices.getInstance().jsonApi.checkIn(
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzM2VjYzA0M2RjNTVlMDA4ZWViZWJkYiIsInVzZXJOYW1lIjoibmFtZSIsInVzZXJMYXN0TmFtZSI6Imxhc3ROYW1lIiwidXNlclBob3RvIjoicGhvdG8iLCJ1c2VyU2V0dGluZyI6InNldHRpbmdzIiwidmlzaXRzIjpbXSwiaWF0IjoxNjY1MDYwMDg0LCJleHAiOjE2NjUwNjU0ODR9.ST5nDEG2xonul6LJuPsQt83jj7mk_mFBMC07c68tfik",
+            visitModel
+        ).enqueue(object : Callback<Void?> {
+            override fun onResponse(call: Call<Void?>, response: Response<Void?>) {}
+            override fun onFailure(call: Call<Void?>, t: Throwable) {}
+        })
     }
 }

@@ -10,8 +10,13 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.login.LoginActivity
+import ru.bratusevd.skb_attendance.models.RegistrationModel
+import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -62,6 +67,23 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         haveAccText.setOnClickListener(this)
     }
 
+
+    fun register() {
+        val registrationModel = RegistrationModel(
+            "mail@mail.ru",
+            "password", "Denis", "Bratusev", "", ""
+        )
+        NetworkServices.getInstance().jsonApi.registration(registrationModel)
+            .enqueue(object : Callback<Void?> {
+                override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
+                    startActivity(Intent(applicationContext, LoginActivity::class.java))
+                    finish()
+                }
+
+                override fun onFailure(call: Call<Void?>, t: Throwable) {}
+            })
+    }
+
     override fun onClick(view: View?) {
         when (view?.id) {
             R.id.registActivity_registrationButton -> onRegistrationCLick()
@@ -75,9 +97,8 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun onRegistrationCLick() {
-        if (checkRegistration()){
-            startActivity(Intent(applicationContext, LoginActivity::class.java))
-            finish()
+        if (checkRegistration()) {
+            register()
         }
     }
 

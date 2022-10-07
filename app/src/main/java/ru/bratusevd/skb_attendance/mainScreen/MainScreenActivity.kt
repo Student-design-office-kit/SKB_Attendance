@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.AccountFragment
 import ru.bratusevd.skb_attendance.mainScreen.news.NewsFragment
+import ru.bratusevd.skb_attendance.models.TokenModel
 
 class MainScreenActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener {
@@ -26,6 +27,8 @@ class MainScreenActivity : AppCompatActivity(),
         bottomNavigationView = findViewById(R.id.mainScreenActivity_NavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener(this@MainScreenActivity)
         bottomNavigationView.selectedItemId = R.id.navigation_news
+
+        val tokenModel = intent.getSerializableExtra("userInfo") as? TokenModel
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

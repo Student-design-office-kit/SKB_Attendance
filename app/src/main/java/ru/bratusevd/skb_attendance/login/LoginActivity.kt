@@ -10,13 +10,19 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.MainScreenActivity
+import ru.bratusevd.skb_attendance.models.LoginModel
+import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.registration.RegistrationActivity
-import ru.bratusevd.skb_attendance.services.network.NetworkHelper
+import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 
@@ -160,7 +166,20 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun onLoginCLick() {
-        if (checkLogin()) startActivity(Intent(applicationContext, MainScreenActivity::class.java))
+        if (checkLogin()) login()
+    }
+
+    private fun login() {
+        val loginModel = LoginModel("email5@mail.ru", "password")
+        NetworkServices.getInstance().jsonApi.login(loginModel).enqueue(object : Callback<ArrayList<TokenModel>> {
+                override fun onResponse(call: Call<ArrayList<TokenModel>>, response: Response<ArrayList<TokenModel>>) {
+                    Toast.makeText(applicationContext, response.code().toString(), Toast.LENGTH_SHORT).show()
+                    val intent = Intent(applicationContext, MainScreenActivity::class.java)
+                    intent.putExtra("userInfo", response.body()[0])
+                    startActivity(intent)
+                }
+                override fun onFailure(call: Call<ArrayList<TokenModel>>, t: Throwable) {}
+            })
     }
 
     private fun onRegistrationCLick() {

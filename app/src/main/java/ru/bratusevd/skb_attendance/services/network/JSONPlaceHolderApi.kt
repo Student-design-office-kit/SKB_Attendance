@@ -11,14 +11,14 @@ import ru.bratusevd.skb_attendance.models.VisitModel
 
 interface JSONPlaceHolderApi {
     @POST("registration")
-    fun registration(@Body registrationModel: RegistrationModel?): Call<Void?>?
+    fun registration(@Body registrationModel: RegistrationModel): Call<Void>
 
     @POST("login")
-    fun login(@Body loginModel: LoginModel?): Call<TokenModel?>?
+    fun login(@Body loginModel: LoginModel): Call<ArrayList<TokenModel>>
 
     @POST("uploadVisit")
     fun checkIn(
-        @Header("Authorization") token: String?,
-        @Body visitModel: VisitModel?
-    ): Call<Void?>?
+        @Header("Authorization") token: String,
+        @Body visitModel: VisitModel
+    ): Call<Void>
 }
