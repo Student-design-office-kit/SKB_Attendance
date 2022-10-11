@@ -174,7 +174,16 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 override fun onResponse(call: Call<ArrayList<TokenModel>>, response: Response<ArrayList<TokenModel>>) {
                     if (response.code() in 200..299){
                         val intent = Intent(applicationContext, MainScreenActivity::class.java)
-                        intent.putExtra("userInfo", response.body()[0])
+                        val tokenModel = TokenModel(response.body()[0].getId(),
+                            response.body()[0].getFirstName(),
+                            response.body()[0].getLastName(),
+                            response.body()[0].getPhoto(),
+                            response.body()[0].getSettings(),
+                            response.body()[0].getVisits(),
+                            "Bearer " + response.body()[1].getAccess(),
+                            response.body()[1].getAccess()
+                        )
+                        intent.putExtra("userInfo", tokenModel)
                         startActivity(intent)
                     }else{
                         Toast.makeText(applicationContext, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
