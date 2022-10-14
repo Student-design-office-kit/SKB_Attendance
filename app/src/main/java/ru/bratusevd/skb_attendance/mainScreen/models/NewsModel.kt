@@ -5,7 +5,7 @@ class NewsModel(
     private var description: String,
     private var header: String,
     private var dataText: String
-) {
+): java.io.Serializable {
     fun getImage(): String {
         return images
     }
