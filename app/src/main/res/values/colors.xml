@@ -25,4 +25,5 @@
 
     <color name="storyProgressColor">#1FB0F3</color>
     <color name="red">#FF1100</color>
+    <color name="yellow">#FFFB08</color>
 </resources>

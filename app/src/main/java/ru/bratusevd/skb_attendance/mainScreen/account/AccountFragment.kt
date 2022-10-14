@@ -1,19 +1,30 @@
 package ru.bratusevd.skb_attendance.mainScreen.account
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.GestureDetector.SimpleOnGestureListener
+import android.view.View.OnTouchListener
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.github.mikephil.charting.animation.Easing
+import com.github.mikephil.charting.charts.PieChart
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.data.PieEntry
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.MPPointF
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -26,7 +37,6 @@ import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
 class AccountFragment : Fragment() {
 
     private var root: View? = null
@@ -35,12 +45,11 @@ class AccountFragment : Fragment() {
     private lateinit var userImage: ImageView
     private lateinit var userName: TextView
     private lateinit var storyList: ListView
+    private lateinit var pieChart: PieChart
+    private lateinit var flipper: ViewFlipper
 
-    private val SCANNER_REQUEST = 1
     private lateinit var tokenModel: TokenModel
     private val APP_PREFERENCES = "visit"
-
-    fun AccountFragment() {}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,8 +67,11 @@ class AccountFragment : Fragment() {
         userImage = root!!.findViewById(R.id.accountFragment_userImage)
         userName = root!!.findViewById(R.id.accountFragment_userName)
         storyList = root!!.findViewById(R.id.accountFragment_storyList)
+        pieChart = root!!.findViewById(R.id.pieChart)
+        flipper = root!!.findViewById(R.id.flipper)
 
         userName.text = tokenModel.getName()
+        setPieChart()
         setUserImage()
         setAdapter()
         setOnClick()
@@ -72,8 +84,18 @@ class AccountFragment : Fragment() {
             .into(userImage);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun setAdapter() {
         storyList.adapter = StoryAdapter(requireContext(), fillArray())
+        flipper.setOnTouchListener(object : OnSwipeTouchListener(context) {
+            override fun onSwipeLeft() {
+                flipper.showNext()
+            }
+
+            override fun onSwipeRight() {
+                flipper.showPrevious()
+            }
+        })
     }
 
     private fun fillArray(): ArrayList<TimeModel> {
@@ -185,5 +207,107 @@ class AccountFragment : Fragment() {
             override fun onFailure(call: Call<String>?, t: Throwable?) {}
 
         })
+    }
+
+    private fun setPieChart() {
+        pieChart.setUsePercentValues(true)
+        pieChart.getDescription().setEnabled(false)
+        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
+        pieChart.setDragDecelerationFrictionCoef(0.95f)
+        pieChart.setDrawHoleEnabled(true)
+        pieChart.setHoleColor(Color.WHITE)
+        pieChart.setTransparentCircleColor(Color.WHITE)
+        pieChart.setTransparentCircleAlpha(110)
+        pieChart.setHoleRadius(58f)
+        pieChart.setTransparentCircleRadius(61f)
+        pieChart.setDrawCenterText(true)
+        pieChart.setRotationAngle(0f)
+        pieChart.setRotationEnabled(true)
+        pieChart.setHighlightPerTapEnabled(true)
+        pieChart.animateY(1400, Easing.EaseInOutQuad)
+        pieChart.legend.isEnabled = false
+        pieChart.setEntryLabelColor(Color.WHITE)
+        pieChart.setEntryLabelTextSize(12f)
+        val entries: ArrayList<PieEntry> = ArrayList()
+        entries.add(PieEntry(70f))
+        entries.add(PieEntry(20f))
+        entries.add(PieEntry(10f))
+        val dataSet = PieDataSet(entries, "Mobile OS")
+        dataSet.setDrawIcons(false)
+        dataSet.sliceSpace = 3f
+        dataSet.iconsOffset = MPPointF(0f, 40f)
+        dataSet.selectionShift = 5f
+        val colors: ArrayList<Int> = ArrayList()
+        colors.add(resources.getColor(R.color.purple_200))
+        colors.add(resources.getColor(R.color.yellow))
+        colors.add(resources.getColor(R.color.red))
+        dataSet.colors = colors
+        val data = PieData(dataSet)
+        data.setValueFormatter(PercentFormatter())
+        data.setValueTextSize(15f)
+        data.setValueTypeface(Typeface.DEFAULT_BOLD)
+        data.setValueTextColor(Color.WHITE)
+        pieChart.setData(data)
+        pieChart.highlightValues(null)
+        pieChart.invalidate()
+    }
+
+    open class OnSwipeTouchListener(ctx: Context?) : OnTouchListener {
+        private val gestureDetector: GestureDetector
+        private val SWIPE_THRESHOLD = 100
+        private val SWIPE_VELOCITY_THRESHOLD = 100
+
+        init {
+            gestureDetector = GestureDetector(ctx, GestureListener())
+        }
+
+        override fun onTouch(v: View, event: MotionEvent): Boolean {
+            return gestureDetector.onTouchEvent(event)
+        }
+
+        private inner class GestureListener : SimpleOnGestureListener() {
+            override fun onDown(e: MotionEvent): Boolean {
+                return true
+            }
+
+            override fun onFling(
+                e1: MotionEvent,
+                e2: MotionEvent,
+                velocityX: Float,
+                velocityY: Float
+            ): Boolean {
+                var result = false
+                try {
+                    val diffY = e2.y - e1.y
+                    val diffX = e2.x - e1.x
+                    if (Math.abs(diffX) > Math.abs(diffY)) {
+                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
+                            if (diffX > 0) {
+                                onSwipeRight()
+                            } else {
+                                onSwipeLeft()
+                            }
+                            result = true
+                        }
+                    } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                        if (diffY > 0) {
+                            onSwipeBottom()
+                        } else {
+                            onSwipeTop()
+                        }
+                        result = true
+                    }
+                } catch (exception: Exception) {
+                    exception.printStackTrace()
+                }
+                return result
+            }
+
+        }
+
+        open fun onSwipeRight() {}
+        open fun onSwipeLeft() {}
+        fun onSwipeTop() {}
+        fun onSwipeBottom() {}
     }
 }
