@@ -47,6 +47,8 @@ class AccountFragment : Fragment() {
     private lateinit var storyList: ListView
     private lateinit var pieChart: PieChart
     private lateinit var flipper: ViewFlipper
+    private lateinit var listBtn: Button
+    private lateinit var graphBtn: Button
 
     private lateinit var tokenModel: TokenModel
     private val APP_PREFERENCES = "visit"
@@ -69,6 +71,8 @@ class AccountFragment : Fragment() {
         storyList = root!!.findViewById(R.id.accountFragment_storyList)
         pieChart = root!!.findViewById(R.id.pieChart)
         flipper = root!!.findViewById(R.id.flipper)
+        listBtn = root!!.findViewById(R.id.listBtn)
+        graphBtn = root!!.findViewById(R.id.graphBtn)
 
         userName.text = tokenModel.getName()
         setPieChart()
@@ -87,15 +91,6 @@ class AccountFragment : Fragment() {
     @SuppressLint("ClickableViewAccessibility")
     private fun setAdapter() {
         storyList.adapter = StoryAdapter(requireContext(), fillArray())
-        flipper.setOnTouchListener(object : OnSwipeTouchListener(context) {
-            override fun onSwipeLeft() {
-                flipper.showNext()
-            }
-
-            override fun onSwipeRight() {
-                flipper.showPrevious()
-            }
-        })
     }
 
     private fun fillArray(): ArrayList<TimeModel> {
@@ -107,6 +102,24 @@ class AccountFragment : Fragment() {
     private fun setOnClick() {
         onInputCodeClick()
         onUserImageClick()
+        onGpaphClick()
+        onListClick()
+    }
+
+    private fun onListClick() {
+        listBtn.setOnClickListener {
+            flipper.showPrevious()
+            graphBtn.isEnabled = true
+            listBtn.isEnabled = false
+        }
+    }
+
+    private fun onGpaphClick() {
+        graphBtn.setOnClickListener {
+            flipper.showNext()
+            graphBtn.isEnabled = false
+            listBtn.isEnabled = true
+        }
     }
 
     private fun onUserImageClick() {
@@ -194,7 +207,7 @@ class AccountFragment : Fragment() {
         NetworkServices.getInstance().jsonApi.getCode(token).enqueue(object : Callback<String> {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
-                if (response?.body().toString().equals(code)) {
+                if (response?.body().toString() == code) {
                     writeVisit()
                     Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
                     alertDialog.cancel()
@@ -211,19 +224,19 @@ class AccountFragment : Fragment() {
 
     private fun setPieChart() {
         pieChart.setUsePercentValues(true)
-        pieChart.getDescription().setEnabled(false)
+        pieChart.description.isEnabled = false
         pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
-        pieChart.setDragDecelerationFrictionCoef(0.95f)
-        pieChart.setDrawHoleEnabled(true)
+        pieChart.dragDecelerationFrictionCoef = 0.95f
+        pieChart.isDrawHoleEnabled = true
         pieChart.setHoleColor(Color.WHITE)
         pieChart.setTransparentCircleColor(Color.WHITE)
         pieChart.setTransparentCircleAlpha(110)
-        pieChart.setHoleRadius(58f)
-        pieChart.setTransparentCircleRadius(61f)
+        pieChart.holeRadius = 58f
+        pieChart.transparentCircleRadius = 61f
         pieChart.setDrawCenterText(true)
-        pieChart.setRotationAngle(0f)
-        pieChart.setRotationEnabled(true)
-        pieChart.setHighlightPerTapEnabled(true)
+        pieChart.rotationAngle = 0f
+        pieChart.isRotationEnabled = true
+        pieChart.isHighlightPerTapEnabled = true
         pieChart.animateY(1400, Easing.EaseInOutQuad)
         pieChart.legend.isEnabled = false
         pieChart.setEntryLabelColor(Color.WHITE)
@@ -250,64 +263,5 @@ class AccountFragment : Fragment() {
         pieChart.setData(data)
         pieChart.highlightValues(null)
         pieChart.invalidate()
-    }
-
-    open class OnSwipeTouchListener(ctx: Context?) : OnTouchListener {
-        private val gestureDetector: GestureDetector
-        private val SWIPE_THRESHOLD = 100
-        private val SWIPE_VELOCITY_THRESHOLD = 100
-
-        init {
-            gestureDetector = GestureDetector(ctx, GestureListener())
-        }
-
-        override fun onTouch(v: View, event: MotionEvent): Boolean {
-            return gestureDetector.onTouchEvent(event)
-        }
-
-        private inner class GestureListener : SimpleOnGestureListener() {
-            override fun onDown(e: MotionEvent): Boolean {
-                return true
-            }
-
-            override fun onFling(
-                e1: MotionEvent,
-                e2: MotionEvent,
-                velocityX: Float,
-                velocityY: Float
-            ): Boolean {
-                var result = false
-                try {
-                    val diffY = e2.y - e1.y
-                    val diffX = e2.x - e1.x
-                    if (Math.abs(diffX) > Math.abs(diffY)) {
-                        if (Math.abs(diffX) > SWIPE_THRESHOLD && Math.abs(velocityX) > SWIPE_VELOCITY_THRESHOLD) {
-                            if (diffX > 0) {
-                                onSwipeRight()
-                            } else {
-                                onSwipeLeft()
-                            }
-                            result = true
-                        }
-                    } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
-                        if (diffY > 0) {
-                            onSwipeBottom()
-                        } else {
-                            onSwipeTop()
-                        }
-                        result = true
-                    }
-                } catch (exception: Exception) {
-                    exception.printStackTrace()
-                }
-                return result
-            }
-
-        }
-
-        open fun onSwipeRight() {}
-        open fun onSwipeLeft() {}
-        fun onSwipeTop() {}
-        fun onSwipeBottom() {}
     }
 }
