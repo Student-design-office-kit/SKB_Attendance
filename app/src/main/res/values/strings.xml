@@ -3,11 +3,11 @@
     <string name="emailTitle">Почта</string>
     <string name="passwordTitle">Пароль</string>
     <string name="loginButtonTitle">Войти</string>
-    <string name="forgot_password"><u>Забыли пароль?</u></string>
+    <string name="forgot_password"><u>Восстановить пароль</u></string>
     <string name="loginHeader">Вход в аккаунт</string>
     <string name="registrationButtonTitle">Зарегистрироваться</string>
     <string name="incorrect_format">*Неверный формат</string>
-    <string name="incorrect_format_pass">*Пароль должен быть не короче 8 символов\nи включать хотя бы одну цифру</string>
+    <string name="incorrect_format_pass">*Пароль должен быть больше 8 символов</string>
     <string name="registrationHeader">Создать аккаунт</string>
     <string name="nameTitle">Имя пользователя</string>
     <string name="haveAcc_text">Уже есть аккаунт</string>
@@ -32,4 +32,5 @@
     <string name="profile_title">Профиль</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="calendar">Календарь</string>
 </resources>

@@ -11,14 +11,17 @@
         android:id="@+id/mainScreenActivity_Container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
+        android:layout_marginBottom="70dp"
         android:layout_marginTop="20dp"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/mainScreenActivity_NavigationView"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         app:itemIconSize="40dp"
         android:layout_gravity="bottom"
+        app:itemIconTint="#8DFFFFFF"
+        app:itemTextColor="#8DFFFFFF"
+        android:background="@color/login_button_back"
         app:menu="@menu/main_screen_nav_view"/>
 </FrameLayout>

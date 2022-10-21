@@ -15,7 +15,4 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="ProgressBarStyle">
-        <item name="colorAccent">@color/storyProgressColor</item>
-    </style>
 </resources>

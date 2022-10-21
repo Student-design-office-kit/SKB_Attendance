@@ -10,7 +10,8 @@
 
     <color name="login_text">#000000</color>
     <color name="login_button_text">#FFFFFF</color>
-    <color name="login_button_back">#0E5FED</color>
+    <color name="login_button_back">#3E5CB4</color>
+    <color name="forgot_text_blue">#2089D6</color>
     <color name="login_button_back_leftGrad">#004EDB</color>
     <color name="login_button_back_rightGrad">#00B1FF</color>
     <color name="login_hint">#818181</color>
@@ -22,6 +23,9 @@
 
     <color name="news_item_back">#818181</color>
     <color name="accountName">#FFFFFF</color>
+
+    <color name="progressbar_rightGradient">#3F8AE0</color>
+    <color name="progressbar_leftGradient">#0F529F</color>
 
     <color name="storyProgressColor">#1FB0F3</color>
     <color name="red">#FF1100</color>

@@ -6,166 +6,141 @@
     android:layout_height="match_parent"
     tools:context=".registration.RegistrationActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/registrationHeader"
-        android:textColor="@color/regist_text"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/registActivity_nameLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registActivity_nameLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp"
-        app:boxCornerRadiusBottomEnd="13dp"
-        app:boxCornerRadiusBottomStart="13dp"
-        app:boxCornerRadiusTopEnd="13dp"
-        app:boxCornerRadiusTopStart="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/registActivity_emailLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/registActivity_nameInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/nameTitle"
-            android:textColor="@color/regist_text"
-            android:textColorHint="@color/regist_hint" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registActivity_emailLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginBottom="40dp"
-        app:boxCornerRadiusBottomEnd="13dp"
-        app:boxCornerRadiusBottomStart="13dp"
-        app:boxCornerRadiusTopEnd="13dp"
-        app:boxCornerRadiusTopStart="13dp"
-        app:layout_constraintBottom_toTopOf="@+id/registActivity_passwordLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/registActivity_emailInput"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/emailTitle"
-            android:textColor="@color/regist_text"
-            android:textColorHint="@color/regist_hint" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/registActivity_passwordLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginRight="30dp"
-        app:boxCornerRadiusBottomEnd="13dp"
-        app:boxCornerRadiusBottomStart="13dp"
-        app:boxCornerRadiusTopEnd="13dp"
-        app:boxCornerRadiusTopStart="13dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/registActivity_passwordInput"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="43dp"
+            android:background="@drawable/logo" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registActivity_nameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:hint="@string/passwordTitle"
-            android:inputType="textPassword"
-            android:textColor="@color/regist_text"
-            android:textColorHint="@color/regist_hint" />
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginEnd="16dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registActivity_nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/nameTitle"
+                android:textColor="@color/regist_text"
+                android:textColorHint="@color/regist_hint" />
 
-    <TextView
-        android:id="@+id/registActivity_passDescText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="50dp"
-        android:text="@string/incorrect_format_pass"
-        android:textColor="@color/regist_errorTextColor"
-        android:textSize="11sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registActivity_passwordLayout" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <TextView
-        android:id="@+id/registActivity_haveAccText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/haveAcc_text"
-        android:textColor="@color/login_text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registActivity_registrationButton" />
+        <TextView
+            android:id="@+id/rgistActivity_nameDescText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/incorrect_format"
+            android:textColor="@color/regist_errorTextColor"
+            android:textSize="11sp"
+            android:visibility="invisible" />
 
-    <TextView
-        android:id="@+id/rgistActivity_nameDescText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/incorrect_format"
-        android:textColor="@color/regist_errorTextColor"
-        android:textSize="11sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registActivity_nameLayout" />
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registActivity_emailLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp">
 
-    <TextView
-        android:id="@+id/rgistActivity_emailDescText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginTop="5dp"
-        android:text="@string/incorrect_format"
-        android:textColor="@color/regist_errorTextColor"
-        android:textSize="11sp"
-        android:visibility="invisible"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registActivity_emailLayout" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registActivity_emailInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/emailTitle"
+                android:textColor="@color/regist_text"
+                android:textColorHint="@color/regist_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/rgistActivity_emailDescText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/incorrect_format"
+            android:textColor="@color/regist_errorTextColor"
+            android:textSize="11sp"
+            android:visibility="invisible" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registActivity_passwordLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="16dp"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registActivity_passwordInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/passwordTitle"
+                android:inputType="textPassword"
+                android:textColor="@color/regist_text"
+                android:textColorHint="@color/regist_hint"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/registActivity_passDescText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/incorrect_format_pass"
+            android:textColor="@color/regist_errorTextColor"
+            android:textSize="11sp"
+            android:visibility="invisible" />
+
+    </LinearLayout>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/registActivity_registrationButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="60dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="40dp"
         android:background="@drawable/login_button"
         android:minHeight="50dp"
         android:text="@string/registrationButtonTitle"
         android:textAllCaps="false"
         android:textColor="@color/login_button_text"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@id/registActivity_haveAccText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/registActivity_haveAccText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40dp"
+        android:text="@string/haveAcc_text"
+        android:textColor="@color/forgot_text_blue"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registActivity_passDescText" />
-
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
