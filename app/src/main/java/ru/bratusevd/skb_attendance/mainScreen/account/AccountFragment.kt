@@ -33,6 +33,7 @@ import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
 import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
 import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.models.VisitModel
+import ru.bratusevd.skb_attendance.services.codeInput.Verification
 import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -44,11 +45,6 @@ class AccountFragment : Fragment() {
     private lateinit var codeInput: ImageView
     private lateinit var userImage: ImageView
     private lateinit var userName: TextView
-    private lateinit var storyList: ListView
-    private lateinit var pieChart: PieChart
-    private lateinit var flipper: ViewFlipper
-    private lateinit var listBtn: Button
-    private lateinit var graphBtn: Button
 
     private lateinit var tokenModel: TokenModel
     private val APP_PREFERENCES = "visit"
@@ -68,58 +64,22 @@ class AccountFragment : Fragment() {
         codeInput = root?.findViewById(R.id.accountFragment_scanner)!!
         userImage = root!!.findViewById(R.id.accountFragment_userImage)
         userName = root!!.findViewById(R.id.accountFragment_userName)
-        storyList = root!!.findViewById(R.id.accountFragment_storyList)
-        pieChart = root!!.findViewById(R.id.pieChart)
-        flipper = root!!.findViewById(R.id.flipper)
-        listBtn = root!!.findViewById(R.id.listBtn)
-        graphBtn = root!!.findViewById(R.id.graphBtn)
 
         userName.text = tokenModel.getName()
-        setPieChart()
         setUserImage()
-        setAdapter()
         setOnClick()
     }
 
     private fun setUserImage() {
         Glide.with(this)
-            .load("https://i.pinimg.com/736x/72/58/50/7258501d265d2abfc732620c7a9dbcdf.jpg")
+            .load("https://s1.1zoom.ru/big0/94/345461-admin.jpg")
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(userImage);
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    private fun setAdapter() {
-        storyList.adapter = StoryAdapter(requireContext(), fillArray())
-    }
-
-    private fun fillArray(): ArrayList<TimeModel> {
-        val timeModels: ArrayList<TimeModel> = tokenModel.getVisits()
-        timeModels.reverse()
-        return timeModels
     }
 
     private fun setOnClick() {
         onInputCodeClick()
         onUserImageClick()
-        onGpaphClick()
-        onListClick()
-    }
-
-    private fun onListClick() {
-        listBtn.setOnClickListener {
-            flipper.showPrevious()
-            graphBtn.isEnabled = true
-            listBtn.isEnabled = false
-        }
-    }
-
-    private fun onGpaphClick() {
-        graphBtn.setOnClickListener {
-            flipper.showNext()
-            graphBtn.isEnabled = false
-            listBtn.isEnabled = true
-        }
     }
 
     private fun onUserImageClick() {
@@ -135,7 +95,7 @@ class AccountFragment : Fragment() {
 
             var code: String
             promptsView.findViewById<Button>(R.id.codeSuccess_button).setOnClickListener {
-                code = promptsView.findViewById<EditText>(R.id.code_inputText).text.toString()
+                code = promptsView.findViewById<Verification>(R.id.code_inputText).phoneCode.toString()
                 verificationCode(tokenModel.getAccess(), alertDialog, code)
             }
             alertDialog.show()
@@ -220,48 +180,5 @@ class AccountFragment : Fragment() {
             override fun onFailure(call: Call<String>?, t: Throwable?) {}
 
         })
-    }
-
-    private fun setPieChart() {
-        pieChart.setUsePercentValues(true)
-        pieChart.description.isEnabled = false
-        pieChart.setExtraOffsets(5f, 10f, 5f, 5f)
-        pieChart.dragDecelerationFrictionCoef = 0.95f
-        pieChart.isDrawHoleEnabled = true
-        pieChart.setHoleColor(Color.WHITE)
-        pieChart.setTransparentCircleColor(Color.WHITE)
-        pieChart.setTransparentCircleAlpha(110)
-        pieChart.holeRadius = 58f
-        pieChart.transparentCircleRadius = 61f
-        pieChart.setDrawCenterText(true)
-        pieChart.rotationAngle = 0f
-        pieChart.isRotationEnabled = true
-        pieChart.isHighlightPerTapEnabled = true
-        pieChart.animateY(1400, Easing.EaseInOutQuad)
-        pieChart.legend.isEnabled = false
-        pieChart.setEntryLabelColor(Color.WHITE)
-        pieChart.setEntryLabelTextSize(12f)
-        val entries: ArrayList<PieEntry> = ArrayList()
-        entries.add(PieEntry(70f))
-        entries.add(PieEntry(20f))
-        entries.add(PieEntry(10f))
-        val dataSet = PieDataSet(entries, "Mobile OS")
-        dataSet.setDrawIcons(false)
-        dataSet.sliceSpace = 3f
-        dataSet.iconsOffset = MPPointF(0f, 40f)
-        dataSet.selectionShift = 5f
-        val colors: ArrayList<Int> = ArrayList()
-        colors.add(resources.getColor(R.color.purple_200))
-        colors.add(resources.getColor(R.color.yellow))
-        colors.add(resources.getColor(R.color.red))
-        dataSet.colors = colors
-        val data = PieData(dataSet)
-        data.setValueFormatter(PercentFormatter())
-        data.setValueTextSize(15f)
-        data.setValueTypeface(Typeface.DEFAULT_BOLD)
-        data.setValueTextColor(Color.WHITE)
-        pieChart.setData(data)
-        pieChart.highlightValues(null)
-        pieChart.invalidate()
     }
 }

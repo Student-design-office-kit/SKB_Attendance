@@ -13,7 +13,7 @@ import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
 import java.util.*
 
 
-class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapter()  {
+class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapter() {
 
     private val mContext: Context = context
     private val mTimeList: ArrayList<TimeModel> = timeList
@@ -37,13 +37,16 @@ class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapt
 
         val currentTime: Date = Calendar.getInstance().time
         //var curTime: String = currentTime.hours.toString() + ":" + currentTime.minutes
-        /*if(timeModel.getEndTime() != null)*/var curTime = timeModel.getEndTime()
+        /*if(timeModel.getEndTime() != null)*/
+        var curTime = timeModel.getEndTime()
         val mInflater = LayoutInflater.from(mContext)
         if (view == null) {
             view = mInflater.inflate(R.layout.story_item, null)
         }
         (view!!.findViewById(R.id.storyItem_progressBar) as ProgressBar).progress =
             calcResTime(curTime, timeModel.getStartTime())
+        (view.findViewById(R.id.timeText) as TextView).text =
+            resTimeToString(calcResTime(curTime, timeModel.getStartTime()))
         (view.findViewById(R.id.storyItem_date) as TextView).text = timeModel.getDate()
 
         return view
@@ -58,6 +61,14 @@ class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapt
                 .toTypedArray()[1].toInt()
         minutes += hours * 60
         return minutes
+    }
+
+    private fun resTimeToString(time: Int): String {
+        var res: String
+        val hours: Int = time / 60 //since both are ints, you get an int
+        val minutes: Int = time % 60
+        res = String.format("%d:%02d", hours, minutes)
+        return res
     }
 
 }

@@ -22,7 +22,7 @@
     <color name="regist_hint">#818181</color>
 
     <color name="news_item_back">#818181</color>
-    <color name="accountName">#FFFFFF</color>
+    <color name="accountName">#000000</color>
 
     <color name="progressbar_rightGradient">#3F8AE0</color>
     <color name="progressbar_leftGradient">#0F529F</color>
@@ -30,4 +30,6 @@
     <color name="storyProgressColor">#1FB0F3</color>
     <color name="red">#FF1100</color>
     <color name="yellow">#FFFB08</color>
+    
+    <color name="border_color">#C1C1C1</color>
 </resources>

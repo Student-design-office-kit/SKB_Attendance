@@ -4,24 +4,19 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/code_inputText"
-        android:layout_width="wrap_content"
+    <ru.bratusevd.skb_attendance.services.codeInput.Verification
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="25sp"
-        android:inputType="number"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:layout_marginTop="40dp"
-        android:hint="0 0 0 0"/>
+        android:layout_margin="50dp"
+        android:id="@+id/code_inputText"/>
 
     <Button
         android:id="@+id/codeSuccess_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="10dp"
         android:text="Подтвердить"
+        android:background="@drawable/login_button"
         android:textAllCaps="false"
         android:textSize="20sp"
         android:layout_gravity="center"
