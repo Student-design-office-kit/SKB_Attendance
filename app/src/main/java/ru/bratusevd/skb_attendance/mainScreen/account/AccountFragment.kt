@@ -1,36 +1,22 @@
 package ru.bratusevd.skb_attendance.mainScreen.account
 
-import android.annotation.SuppressLint
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import android.graphics.Color
-import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import android.view.GestureDetector.SimpleOnGestureListener
-import android.view.View.OnTouchListener
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.github.mikephil.charting.animation.Easing
-import com.github.mikephil.charting.charts.PieChart
-import com.github.mikephil.charting.data.PieData
-import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.data.PieEntry
-import com.github.mikephil.charting.formatter.PercentFormatter
-import com.github.mikephil.charting.utils.MPPointF
+
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import ru.bratusevd.skb_attendance.R
-import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
-import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
 import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.models.VisitModel
 import ru.bratusevd.skb_attendance.services.codeInput.Verification

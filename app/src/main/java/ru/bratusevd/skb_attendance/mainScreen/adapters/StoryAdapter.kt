@@ -36,8 +36,6 @@ class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapt
         val timeModel: TimeModel = getItem(position)
 
         val currentTime: Date = Calendar.getInstance().time
-        //var curTime: String = currentTime.hours.toString() + ":" + currentTime.minutes
-        /*if(timeModel.getEndTime() != null)*/
         var curTime = timeModel.getEndTime()
         val mInflater = LayoutInflater.from(mContext)
         if (view == null) {
@@ -65,7 +63,7 @@ class StoryAdapter(context: Context, timeList: ArrayList<TimeModel>) : BaseAdapt
 
     private fun resTimeToString(time: Int): String {
         var res: String
-        val hours: Int = time / 60 //since both are ints, you get an int
+        val hours: Int = time / 60
         val minutes: Int = time % 60
         res = String.format("%d:%02d", hours, minutes)
         return res
