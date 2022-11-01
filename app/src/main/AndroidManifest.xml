@@ -12,9 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SKB_Attendance">
         <activity
-            android:name=".mainScreen.account.utils.QR_Scanner"
-            android:exported="false" />
-        <activity
             android:name=".mainScreen.MainScreenActivity"
             android:exported="false"
             android:screenOrientation="fullSensor" />
