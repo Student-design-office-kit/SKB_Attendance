@@ -43,14 +43,14 @@ class CalendarFragment : Fragment() {
 
     @SuppressLint("ClickableViewAccessibility")
     private fun setAdapter() {
-        storyList.adapter = StoryAdapter(requireContext(), fillArray())
+        storyList.adapter = StoryAdapter(requireContext(), visitFilter(fillArray(), 3))
         setBarChart()
     }
 
     private fun setBarChart() {
         val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
-        val timeModels: ArrayList<TimeModel> = fillArray()
+        val timeModels: ArrayList<TimeModel> = visitFilter(fillArray(),2)
         var i = 0;
         timeModels.forEach{
             entries.add(BarEntry(resTimeToHours(calcResTime(it.getEndTime(), it.getStartTime())), i))
@@ -66,8 +66,108 @@ class CalendarFragment : Fragment() {
         barChart.animateY(3000)
     }
 
+    private fun visitFilter(timeModels: ArrayList<TimeModel>, filterType: Int): ArrayList<TimeModel> {
+        when(filterType){
+            1->{
+                return last7Days(timeModels)
+            }
+            2->{
+                return last30Days(timeModels)
+            }
+            3->{
+                return month(timeModels, "11")
+            }
+        }
+
+        return timeModels
+    }
+
+    private fun last7Days(timeModels: ArrayList<TimeModel>): ArrayList<TimeModel> {
+        val array: ArrayList<TimeModel> = ArrayList()
+        if(timeModels.size <= 7) return timeModels
+
+        var count = 0;
+        timeModels.forEach{
+            if(count == 7) return array
+            array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
+            count++
+        }
+        return array
+    }
+
+    private fun month(timeModels: ArrayList<TimeModel>, monthNum: String): ArrayList<TimeModel> {
+        val array: ArrayList<TimeModel> = ArrayList()
+
+        var count = 0;
+        timeModels.forEach{
+            if(it.getDate().split(".")[1] == monthNum)
+            array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
+            count++
+        }
+        return array
+    }
+
+    private fun last30Days(timeModels: ArrayList<TimeModel>): ArrayList<TimeModel> {
+        val array: ArrayList<TimeModel> = ArrayList()
+        if(timeModels.size <= 30) return timeModels
+
+        var count = 0;
+        timeModels.forEach{
+            if(count == 30) return array
+            array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
+            count++
+        }
+        return array
+    }
+
     private fun fillArray(): ArrayList<TimeModel> {
-        val timeModels: ArrayList<TimeModel> = tokenModel.getVisits()
+        //val timeModels: ArrayList<TimeModel> = tokenModel.getVisits()
+        val timeModels: ArrayList<TimeModel> = ArrayList()
+        timeModels.add(TimeModel("10:35", "01.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "01.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "02.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "03.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "04.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "05.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "06.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "07.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "08.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "09.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "10.05.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "01.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "01.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "02.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "03.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "04.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "05.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "06.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "07.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "08.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "09.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "10.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "11.09.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "01.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "02.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "03.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "04.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "05.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "06.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "07.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "08.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "09.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "10.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "11.11.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "01.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "02.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "03.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "04.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "05.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "06.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "07.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "08.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "09.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "10.12.2022", "11:45"))
+        timeModels.add(TimeModel("10:35", "11.12.2022", "11:45"))
         timeModels.reverse()
         return timeModels
     }
