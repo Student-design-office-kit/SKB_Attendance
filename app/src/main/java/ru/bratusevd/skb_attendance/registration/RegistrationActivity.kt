@@ -108,16 +108,20 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun onRegistrationCLick() {
         if (checkRegistration()) {
-            register(
-                RegistrationModel(
-                    getText(mailEditText),
-                    getText(passEditText),
-                    getText(nameEditText).split(" ")[0],
-                    getText(nameEditText).split(" ")[1],
-                    "",
-                    ""
+            try {
+                register(
+                    RegistrationModel(
+                        getText(mailEditText),
+                        getText(passEditText),
+                        getText(nameEditText).split(" ")[0],
+                        getText(nameEditText).split(" ")[1],
+                        "",
+                        ""
+                    )
                 )
-            )
+            }catch (e: Exception){
+                Toast.makeText(applicationContext, "Введите имя и фамилию через пробел", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

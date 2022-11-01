@@ -81,7 +81,7 @@ class AccountFragment : Fragment() {
 
             var code: String
             promptsView.findViewById<Button>(R.id.codeSuccess_button).setOnClickListener {
-                code = promptsView.findViewById<Verification>(R.id.code_inputText).phoneCode.toString()
+                code = promptsView.findViewById<Verification>(R.id.code_inputText).phoneCode
                 verificationCode(tokenModel.getAccess(), alertDialog, code)
             }
             alertDialog.show()
