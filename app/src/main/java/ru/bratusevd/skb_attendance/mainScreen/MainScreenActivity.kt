@@ -3,12 +3,9 @@ package ru.bratusevd.skb_attendance.mainScreen
 import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import android.view.Gravity
 import android.view.MenuItem
-import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.appcompat.widget.Toolbar
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -17,7 +14,6 @@ import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.AccountFragment
 import ru.bratusevd.skb_attendance.mainScreen.calendar.CalendarFragment
 import ru.bratusevd.skb_attendance.mainScreen.news.NewsFragment
-import ru.bratusevd.skb_attendance.models.TokenModel
 
 class MainScreenActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,

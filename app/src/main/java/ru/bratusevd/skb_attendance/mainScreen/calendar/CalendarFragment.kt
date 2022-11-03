@@ -114,8 +114,12 @@ class CalendarFragment : Fragment() {
     private fun refactorArray(timeModels: ArrayList<TimeModel>): BarData {
         var entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
-        var tmpTime: Float =
+        var tmpTime: Float
+        tmpTime = try {
             resTimeToHours(calcResTime(timeModels[0].getEndTime(), timeModels[0].getEndTime()))
+        }catch (e: Exception){
+            0f
+        }
         var count = 0;
 
         for (i in 1 until timeModels.size) {
@@ -158,54 +162,12 @@ class CalendarFragment : Fragment() {
     }
 
     private fun fillArray(): ArrayList<TimeModel> {
-        //val timeModels: ArrayList<TimeModel> = tokenModel.getVisits()
         val timeModels: ArrayList<TimeModel> = ArrayList()
-        timeModels.add(TimeModel("10:35", "01.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "01.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "02.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "03.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "04.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "05.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "06.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "07.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "08.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "09.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "10.05.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "01.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "01.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "02.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "03.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "04.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "05.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "06.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "07.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "08.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "09.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "10.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "11.09.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "01.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "02.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "03.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "04.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "05.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "06.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "07.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "08.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "09.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "10.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "11.11.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "01.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "02.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "03.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "04.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "05.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "06.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "07.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "08.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "09.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "10.12.2022", "11:45"))
-        timeModels.add(TimeModel("10:35", "11.12.2022", "11:45"))
-        timeModels.reverse()
+        try {
+            timeModels.addAll(tokenModel.getVisits())
+            timeModels.reverse()
+        }catch (e: Exception){}
+
         return timeModels
     }
 
@@ -221,7 +183,7 @@ class CalendarFragment : Fragment() {
     }
 
     private fun resTimeToHours(time: Int): Float {
-        var res: Float
+        val res: Float
         val hours: Int = time / 60
         val minutes: Int = time % 60
         res = (hours + (minutes.toFloat() / 60))

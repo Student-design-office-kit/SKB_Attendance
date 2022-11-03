@@ -9,10 +9,11 @@ import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,6 +24,7 @@ import ru.bratusevd.skb_attendance.services.codeInput.Verification
 import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
 
 class AccountFragment : Fragment() {
 
@@ -50,7 +52,6 @@ class AccountFragment : Fragment() {
         codeInput = root?.findViewById(R.id.accountFragment_scanner)!!
         userImage = root!!.findViewById(R.id.accountFragment_userImage)
         userName = root!!.findViewById(R.id.accountFragment_userName)
-
         userName.text = tokenModel.getName()
         setUserImage()
         setOnClick()
@@ -68,9 +69,7 @@ class AccountFragment : Fragment() {
         onUserImageClick()
     }
 
-    private fun onUserImageClick() {
-
-    }
+    private fun onUserImageClick() {}
 
     private fun onInputCodeClick() {
         codeInput.setOnClickListener {
@@ -104,7 +103,7 @@ class AccountFragment : Fragment() {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy/HH:mm")
         val currentVisit = LocalDateTime.now().format(formatter)
         var visit: String = readVisit()
-        if (!visit.equals("")) {
+        if (visit != "") {
             var curDate = currentVisit.split("/")[0]
             var lastDate = visit.split("/")[0]
 
