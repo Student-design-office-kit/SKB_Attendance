@@ -30,7 +30,12 @@
     <string name="password_repeat">Повторите пароль</string>
     <string name="diffPassword">Пароли отличаются</string>
     <string name="profile_title">Профиль</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="calendar">Календарь</string>
+    <string name="remember_me">Запомнить меня</string>
+
+    <string-array name="filterNames">
+        <item>7 дней</item>
+        <item>30 дней</item>
+        <item>Текущий месяц</item>
+    </string-array>
 </resources>

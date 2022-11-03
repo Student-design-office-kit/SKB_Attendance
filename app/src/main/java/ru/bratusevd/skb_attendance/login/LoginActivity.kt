@@ -1,13 +1,16 @@
 package ru.bratusevd.skb_attendance.login
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -36,6 +39,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var passDesText: TextView
     lateinit var mailEditText: EditText
     lateinit var passEditText: EditText
+    lateinit var rememberCheckBox: CheckBox
 
     private val VALID_EMAIL_ADDRESS_REGEX: Pattern =
         Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)
@@ -62,7 +66,14 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         passDesText = findViewById(R.id.loginActivity_passDescText)
         mailEditText = findViewById(R.id.loginActivity_emailInput)
         passEditText = findViewById(R.id.loginActivity_passwordInput)
+        rememberCheckBox = findViewById(R.id.remember_check)
 
+        if(getCheckFromPref()){
+            mailEditText.setText(getMailFromPref())
+            passEditText.setText(getPassFromPref())
+            rememberCheckBox.isChecked = getCheckFromPref()
+            login(LoginModel(getMailFromPref(), getPassFromPref()))
+        }
         setOnClick()
     }
 
@@ -185,6 +196,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                             response.body()!![1].getAccess()
                         )
                         intent.putExtra("userInfo", tokenModel)
+                        saveData(rememberCheckBox.isChecked)
+                        saveData(getText(mailEditText), getText(passEditText))
                         startActivity(intent)
                     }else{
                         Toast.makeText(applicationContext, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
@@ -242,5 +255,35 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
 
     override fun onBackPressed() {
 
+    }
+
+    fun saveData(email: String, password: String) {
+        val sharedPref: SharedPreferences = getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putString("email", email)
+        editor.putString("pass", password)
+        editor.apply()
+    }
+
+    fun saveData(remember: Boolean) {
+        val sharedPref: SharedPreferences = getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+        val editor: SharedPreferences.Editor = sharedPref.edit()
+        editor.putBoolean("remember", remember)
+        editor.apply()
+    }
+
+    fun getMailFromPref(): String {
+        val sharedPref: SharedPreferences = getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+        return sharedPref.getString("email", "").toString()
+    }
+
+    fun getPassFromPref(): String {
+        val sharedPref: SharedPreferences = getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+        return sharedPref.getString("pass", "").toString()
+    }
+
+    fun getCheckFromPref(): Boolean {
+        val sharedPref: SharedPreferences = getSharedPreferences("LoginPref", Context.MODE_PRIVATE)
+        return sharedPref.getBoolean("remember", false)
     }
 }

@@ -1,11 +1,12 @@
 package ru.bratusevd.skb_attendance.mainScreen.calendar
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ListView
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
@@ -16,12 +17,14 @@ import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
 import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
 import ru.bratusevd.skb_attendance.models.TokenModel
 
+
 class CalendarFragment : Fragment() {
 
     private var root: View? = null
     private lateinit var tokenModel: TokenModel
     private val APP_PREFERENCES = "visit"
     private lateinit var storyList: ListView
+    private lateinit var filter_spinner: Spinner
     private lateinit var barChart: BarChart
 
     override fun onCreateView(
@@ -37,44 +40,47 @@ class CalendarFragment : Fragment() {
 
     private fun findViews() {
         storyList = root!!.findViewById(R.id.accountFragment_storyList)
-        barChart= root!!.findViewById(R.id.barChart)
+        barChart = root!!.findViewById(R.id.barChart)
+        filter_spinner = root!!.findViewById(R.id.filter_spinner)
         setAdapter()
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     private fun setAdapter() {
-        storyList.adapter = StoryAdapter(requireContext(), visitFilter(fillArray(), 3))
-        setBarChart()
+        filter_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parentView: AdapterView<*>?,
+                selectedItemView: View?,
+                position: Int,
+                id: Long
+            ) {
+                storyList.adapter = StoryAdapter(requireContext(), visitFilter(fillArray()))
+                setBarChart()
+            }
+
+            override fun onNothingSelected(parentView: AdapterView<*>?) {
+            }
+        }
     }
 
     private fun setBarChart() {
-        val entries = ArrayList<BarEntry>()
-        val labels = ArrayList<String>()
-        val timeModels: ArrayList<TimeModel> = visitFilter(fillArray(),2)
-        var i = 0;
-        timeModels.forEach{
-            entries.add(BarEntry(resTimeToHours(calcResTime(it.getEndTime(), it.getStartTime())), i))
-            labels.add(it.getDate().split(".202")[0])
-            i++
-        }
+        val timeModels: ArrayList<TimeModel> = visitFilter(fillArray())
 
-        val barDataSet = BarDataSet(entries, "Hours")
-        val data = BarData(labels, barDataSet)
-        barChart.data = data
+        barChart.data = refactorArray(timeModels)
         barChart.setDescription("")
-        barDataSet.color = resources.getColor(R.color.progressbar_leftGradient)
         barChart.animateY(3000)
     }
 
-    private fun visitFilter(timeModels: ArrayList<TimeModel>, filterType: Int): ArrayList<TimeModel> {
-        when(filterType){
-            1->{
+    private fun visitFilter(
+        timeModels: ArrayList<TimeModel>,
+    ): ArrayList<TimeModel> {
+        when (filter_spinner.selectedItem.toString()) {
+            "7 дней" -> {
                 return last7Days(timeModels)
             }
-            2->{
+            "30 дней" -> {
                 return last30Days(timeModels)
             }
-            3->{
+            "Текущий месяц" -> {
                 return month(timeModels, "11")
             }
         }
@@ -84,11 +90,11 @@ class CalendarFragment : Fragment() {
 
     private fun last7Days(timeModels: ArrayList<TimeModel>): ArrayList<TimeModel> {
         val array: ArrayList<TimeModel> = ArrayList()
-        if(timeModels.size <= 7) return timeModels
+        if (timeModels.size <= 7) return timeModels
 
         var count = 0;
-        timeModels.forEach{
-            if(count == 7) return array
+        timeModels.forEach {
+            if (count == 7) return array
             array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
             count++
         }
@@ -98,22 +104,53 @@ class CalendarFragment : Fragment() {
     private fun month(timeModels: ArrayList<TimeModel>, monthNum: String): ArrayList<TimeModel> {
         val array: ArrayList<TimeModel> = ArrayList()
 
-        var count = 0;
-        timeModels.forEach{
-            if(it.getDate().split(".")[1] == monthNum)
-            array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
-            count++
+        timeModels.forEach {
+            if (it.getDate().split(".")[1] == monthNum)
+                array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
         }
         return array
     }
 
+    private fun refactorArray(timeModels: ArrayList<TimeModel>): BarData {
+        var entries = ArrayList<BarEntry>()
+        val labels = ArrayList<String>()
+        var tmpTime: Float =
+            resTimeToHours(calcResTime(timeModels[0].getEndTime(), timeModels[0].getEndTime()))
+        var count = 0;
+
+        for (i in 1 until timeModels.size) {
+            if (timeModels[i].getDate() == timeModels[i - 1].getDate()) {
+                tmpTime += resTimeToHours(
+                    calcResTime(
+                        timeModels[i].getEndTime(),
+                        timeModels[i].getStartTime()
+                    )
+                )
+            } else {
+                entries.add(BarEntry(tmpTime, count))
+                labels.add(timeModels[i].getDate().split(".202")[0])
+                tmpTime = resTimeToHours(
+                    calcResTime(
+                        timeModels[i].getEndTime(),
+                        timeModels[i].getStartTime()
+                    )
+                )
+                count++
+            }
+        }
+
+        val barDataSet = BarDataSet(entries, "Hours")
+        barDataSet.color = resources.getColor(R.color.progressbar_leftGradient)
+        return BarData(labels, barDataSet)
+    }
+
     private fun last30Days(timeModels: ArrayList<TimeModel>): ArrayList<TimeModel> {
         val array: ArrayList<TimeModel> = ArrayList()
-        if(timeModels.size <= 30) return timeModels
+        if (timeModels.size <= 30) return timeModels
 
         var count = 0;
-        timeModels.forEach{
-            if(count == 30) return array
+        timeModels.forEach {
+            if (count == 30) return array
             array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
             count++
         }
@@ -187,7 +224,7 @@ class CalendarFragment : Fragment() {
         var res: Float
         val hours: Int = time / 60
         val minutes: Int = time % 60
-        res = (hours + (minutes.toFloat()/60))
+        res = (hours + (minutes.toFloat() / 60))
         return res
     }
 

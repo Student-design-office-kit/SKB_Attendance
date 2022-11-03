@@ -81,12 +81,21 @@
             android:textSize="11sp"
             android:visibility="invisible" />
 
+        <CheckBox
+            android:id="@+id/remember_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:textSize="14sp"
+            android:buttonTint="@color/login_button_back"
+            android:text="@string/remember_me"/>
+
         <TextView
             android:id="@+id/loginActivity_forgotText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:text="@string/forgot_password"
             android:textSize="14sp"
             android:textColor="@color/forgot_text_blue" />
