@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ListView
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
@@ -64,7 +65,6 @@ class CalendarFragment : Fragment() {
 
     private fun setBarChart() {
         val timeModels: ArrayList<TimeModel> = visitFilter(fillArray())
-
         barChart.data = refactorArray(timeModels)
         barChart.setDescription("")
         barChart.animateY(3000)
@@ -91,12 +91,25 @@ class CalendarFragment : Fragment() {
     private fun last7Days(timeModels: ArrayList<TimeModel>): ArrayList<TimeModel> {
         val array: ArrayList<TimeModel> = ArrayList()
         if (timeModels.size <= 7) return timeModels
+        array.add(
+            TimeModel(
+                timeModels[0].getStartTime(),
+                timeModels[0].getDate(),
+                timeModels[0].getEndTime()
+            )
+        )
+        var count = 1
 
-        var count = 0;
-        timeModels.forEach {
+        for (i in 1 until timeModels.size) {
             if (count == 7) return array
-            array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
-            count++
+            array.add(
+                TimeModel(
+                    timeModels[i].getStartTime(),
+                    timeModels[i].getDate(),
+                    timeModels[i].getEndTime()
+                )
+            )
+            if (timeModels[i].getDate() != timeModels[i - 1].getDate()) count++
         }
         return array
     }
@@ -112,37 +125,52 @@ class CalendarFragment : Fragment() {
     }
 
     private fun refactorArray(timeModels: ArrayList<TimeModel>): BarData {
-        var entries = ArrayList<BarEntry>()
+        val entries = ArrayList<BarEntry>()
         val labels = ArrayList<String>()
-        var tmpTime: Float
-        tmpTime = try {
-            resTimeToHours(calcResTime(timeModels[0].getEndTime(), timeModels[0].getEndTime()))
-        }catch (e: Exception){
+        var count = 0
+        var tmp = try {
+            resTimeToHours(calcResTime(timeModels[0].getEndTime(), timeModels[0].getStartTime()))
+        } catch (e: Exception) {
             0f
         }
-        var count = 0;
 
         for (i in 1 until timeModels.size) {
-            if (timeModels[i].getDate() == timeModels[i - 1].getDate()) {
-                tmpTime += resTimeToHours(
+            if (timeModels[i].getDate() != timeModels[i - 1].getDate()) {
+                entries.add(BarEntry(tmp, count))
+                labels.add(timeModels[i - 1].getDate())
+                count++
+                tmp = resTimeToHours(
                     calcResTime(
                         timeModels[i].getEndTime(),
                         timeModels[i].getStartTime()
                     )
                 )
             } else {
-                entries.add(BarEntry(tmpTime, count))
-                labels.add(timeModels[i].getDate().split(".202")[0])
-                tmpTime = resTimeToHours(
+                tmp += resTimeToHours(
                     calcResTime(
                         timeModels[i].getEndTime(),
                         timeModels[i].getStartTime()
                     )
                 )
-                count++
             }
         }
 
+        if(timeModels.size > 1 && count == 0){
+            entries.add(BarEntry(tmp, count))
+            labels.add(timeModels[0].getDate())
+        }
+
+        if (timeModels.size == 1) {
+            entries.add(BarEntry(tmp, 0))
+            labels.add(timeModels[0].getDate())
+        }
+
+        try {
+            if (timeModels[timeModels.size - 1].getDate() != timeModels[timeModels.size - 2].getDate()) {
+                entries.add(BarEntry(tmp, count))
+                labels.add(timeModels[timeModels.size - 1].getDate())
+            }
+        } catch (e: Exception) { }
         val barDataSet = BarDataSet(entries, "Hours")
         barDataSet.color = resources.getColor(R.color.progressbar_leftGradient)
         return BarData(labels, barDataSet)
@@ -151,12 +179,25 @@ class CalendarFragment : Fragment() {
     private fun last30Days(timeModels: ArrayList<TimeModel>): ArrayList<TimeModel> {
         val array: ArrayList<TimeModel> = ArrayList()
         if (timeModels.size <= 30) return timeModels
+        array.add(
+            TimeModel(
+                timeModels[0].getStartTime(),
+                timeModels[0].getDate(),
+                timeModels[0].getEndTime()
+            )
+        )
+        var count = 1
 
-        var count = 0;
-        timeModels.forEach {
+        for (i in 1 until timeModels.size) {
             if (count == 30) return array
-            array.add(TimeModel(it.getStartTime(), it.getDate(), it.getEndTime()))
-            count++
+            array.add(
+                TimeModel(
+                    timeModels[i].getStartTime(),
+                    timeModels[i].getDate(),
+                    timeModels[i].getEndTime()
+                )
+            )
+            if (timeModels[i].getDate() != timeModels[i - 1].getDate()) count++
         }
         return array
     }
@@ -166,7 +207,8 @@ class CalendarFragment : Fragment() {
         try {
             timeModels.addAll(tokenModel.getVisits())
             timeModels.reverse()
-        }catch (e: Exception){}
+        } catch (e: Exception) {
+        }
 
         return timeModels
     }
