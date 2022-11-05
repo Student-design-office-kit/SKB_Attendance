@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
@@ -81,6 +82,7 @@ class MainScreenActivity : AppCompatActivity(),
                 return true
             }
             R.id.item_drawer_settings ->{
+                Toast.makeText(applicationContext, "Этот пункт ещё в разработке", Toast.LENGTH_SHORT).show()
                 drawer.closeDrawer(GravityCompat.START)
                 return true
             }

@@ -5,11 +5,13 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.BoringLayout
 import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
+import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
@@ -25,14 +27,14 @@ import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-
 class AccountFragment : Fragment() {
 
     private var root: View? = null
 
-    private lateinit var codeInput: ImageView
+    private lateinit var codeInput: Button
     private lateinit var userImage: ImageView
     private lateinit var userName: TextView
+    private lateinit var userStatus: TextView
 
     private lateinit var tokenModel: TokenModel
     private val APP_PREFERENCES = "visit"
@@ -49,9 +51,11 @@ class AccountFragment : Fragment() {
     }
 
     private fun findViews() {
-        codeInput = root?.findViewById(R.id.accountFragment_scanner)!!
+        codeInput = root?.findViewById(R.id.accountFragment_codeInput)!!
         userImage = root!!.findViewById(R.id.accountFragment_userImage)
         userName = root!!.findViewById(R.id.accountFragment_userName)
+        userStatus = root!!.findViewById(R.id.user_status)
+        userStatus.isVisible = readStatus()
         userName.text = tokenModel.getName()
         setUserImage()
         setOnClick()
@@ -92,6 +96,7 @@ class AccountFragment : Fragment() {
             .enqueue(object : Callback<Void?> {
                 override fun onResponse(call: Call<Void?>, response: Response<Void?>) {
                     Log.d("checkIn", response.code().toString())
+                    writeStatus(false)
                 }
 
                 override fun onFailure(call: Call<Void?>, t: Throwable) {}
@@ -107,7 +112,7 @@ class AccountFragment : Fragment() {
             var curDate = currentVisit.split("/")[0]
             var lastDate = visit.split("/")[0]
 
-            if (!curDate.equals(lastDate)) {
+            if (curDate != lastDate) {
                 val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
                     APP_PREFERENCES, MODE_PRIVATE
                 )
@@ -148,12 +153,29 @@ class AccountFragment : Fragment() {
         return sharedPreferences.getString("visit", "").toString()
     }
 
+    private fun readStatus(): Boolean {
+        val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
+            APP_PREFERENCES, MODE_PRIVATE
+        )
+        return sharedPreferences.getBoolean("status", false)
+    }
+
+    private fun writeStatus(status: Boolean){
+        val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
+            APP_PREFERENCES, MODE_PRIVATE
+        )
+        val editor = sharedPreferences.edit()
+        editor.putBoolean("status", status)
+        editor.apply()
+    }
+
     private fun verificationCode(token: String, alertDialog: AlertDialog, code: String) {
         NetworkServices.getInstance().jsonApi.getCode(token).enqueue(object : Callback<String> {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
-                if (response?.body().toString() == code) {
+                if ((response?.body().toString() == code) || (("0" + response?.body().toString()) == code)) {
                     writeVisit()
+                    writeStatus(true)
                     Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
                     alertDialog.cancel()
                     alertDialog.dismiss()
