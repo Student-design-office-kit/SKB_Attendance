@@ -1,13 +1,19 @@
 package ru.bratusevd.skb_attendance.mainScreen.account
 
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.text.BoringLayout
 import android.util.Log
 import android.view.*
+import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.core.view.GravityCompat
@@ -35,6 +41,8 @@ class AccountFragment : Fragment() {
     private lateinit var userImage: ImageView
     private lateinit var userName: TextView
     private lateinit var userStatus: TextView
+    private lateinit var test: LinearLayout
+    private lateinit var verificationCode: Verification
 
     private lateinit var tokenModel: TokenModel
     private val APP_PREFERENCES = "visit"
@@ -82,9 +90,12 @@ class AccountFragment : Fragment() {
                 .setView(promptsView)
                 .create()
 
+            alertDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
             var code: String
             promptsView.findViewById<Button>(R.id.codeSuccess_button).setOnClickListener {
-                code = promptsView.findViewById<Verification>(R.id.code_inputText).phoneCode
+                verificationCode = promptsView.findViewById(R.id.code_inputText)
+                test = promptsView.findViewById(R.id.testLayout)
+                code = verificationCode.phoneCode
                 verificationCode(tokenModel.getAccess(), alertDialog, code)
             }
             alertDialog.show()
@@ -180,6 +191,19 @@ class AccountFragment : Fragment() {
                     alertDialog.cancel()
                     alertDialog.dismiss()
                 } else {
+                    test.startAnimation(
+                        TranslateAnimation(0f, 50f,
+                            0f, 0f)
+                            .apply {
+                                duration = 300
+                            })
+                    test.startAnimation(
+                        TranslateAnimation(50f, -50f,
+                            0f, 0f)
+                            .apply {
+                                duration = 150
+                            })
+                    vibratePhone()
                     Toast.makeText(context, "Попробуйте другой код", Toast.LENGTH_SHORT).show()
                 }
             }
@@ -187,5 +211,14 @@ class AccountFragment : Fragment() {
             override fun onFailure(call: Call<String>?, t: Throwable?) {}
 
         })
+    }
+
+    fun Fragment.vibratePhone() {
+        val vibrator = context?.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= 26) {
+            vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+        } else {
+            vibrator.vibrate(200)
+        }
     }
 }
