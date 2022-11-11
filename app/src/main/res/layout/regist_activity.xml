@@ -22,7 +22,7 @@
             android:background="@drawable/logo" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/registActivity_nameLayout"
+            android:id="@+id/registActivity_surnameLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,10 +31,40 @@
             android:layout_marginEnd="16dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/registActivity_nameInput"
+                android:id="@+id/registActivity_surnameInput"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:hint="@string/nameTitle"
+                android:textColor="@color/regist_text"
+                android:textColorHint="@color/regist_hint" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/rgistActivity_surnameDescText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="5dp"
+            android:text="@string/incorrect_format"
+            android:textColor="@color/regist_errorTextColor"
+            android:textSize="11sp"
+            android:visibility="invisible" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registActivity_nameLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/registActivity_nameInput"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="@string/surnameTitle"
                 android:textColor="@color/regist_text"
                 android:textColorHint="@color/regist_hint" />
 

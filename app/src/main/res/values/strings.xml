@@ -9,7 +9,8 @@
     <string name="incorrect_format">*Неверный формат</string>
     <string name="incorrect_format_pass">*Пароль должен быть больше 8 символов</string>
     <string name="registrationHeader">Создать аккаунт</string>
-    <string name="nameTitle">Имя пользователя</string>
+    <string name="nameTitle">Имя</string>
+    <string name="surnameTitle">Фамилия</string>
     <string name="haveAcc_text">Уже есть аккаунт</string>
 
     <string name="recover_pass">Восстановить пароль</string>
@@ -32,6 +33,8 @@
     <string name="profile_title">Профиль</string>
     <string name="calendar">Календарь</string>
     <string name="remember_me">Запомнить меня</string>
+    <string name="saveTitle">Сохранить</string>
+    <string name="changePass">Изменить пароль</string>
 
     <string-array name="filterNames">
         <item>7 дней</item>

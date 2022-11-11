@@ -64,7 +64,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         passEditText = findViewById(R.id.loginActivity_passwordInput)
         rememberCheckBox = findViewById(R.id.remember_check)
 
-        if(getCheckFromPref()){
+        if (getCheckFromPref()) {
             mailEditText.setText(getMailFromPref())
             passEditText.setText(getPassFromPref())
             rememberCheckBox.isChecked = getCheckFromPref()
@@ -88,7 +88,9 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun onForgotCLick() {
-        createCodeBottomSheetDialog().show()
+        Toast.makeText(applicationContext, "Эта функция временно не работает", Toast.LENGTH_SHORT)
+            .show()
+        //createCodeBottomSheetDialog().show()
     }
 
     @SuppressLint("InflateParams")
@@ -177,9 +179,13 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun login(loginModel: LoginModel) {
-        NetworkServices.getInstance().jsonApi.login(loginModel).enqueue(object : Callback<ArrayList<TokenModel>> {
-                override fun onResponse(call: Call<ArrayList<TokenModel>>, response: Response<ArrayList<TokenModel>>) {
-                    if (response.code() in 200..299){
+        NetworkServices.getInstance().jsonApi.login(loginModel)
+            .enqueue(object : Callback<ArrayList<TokenModel>> {
+                override fun onResponse(
+                    call: Call<ArrayList<TokenModel>>,
+                    response: Response<ArrayList<TokenModel>>
+                ) {
+                    if (response.code() in 200..299) {
                         val intent = Intent(applicationContext, MainScreenActivity::class.java)
                         val tokenModel = TokenModel(
                             response.body()!![0].getId(),
@@ -195,10 +201,15 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                         saveData(rememberCheckBox.isChecked)
                         saveData(getText(mailEditText), getText(passEditText))
                         startActivity(intent)
-                    }else{
-                        Toast.makeText(applicationContext, "Неверный логин или пароль", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Неверный логин или пароль",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
+
                 override fun onFailure(call: Call<ArrayList<TokenModel>>, t: Throwable) {}
             })
     }

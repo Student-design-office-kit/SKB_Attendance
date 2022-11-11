@@ -28,9 +28,11 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
     lateinit var mailDesText: TextView
     lateinit var passDesText: TextView
     lateinit var nameDesText: TextView
+    lateinit var surnameDesText: TextView
     lateinit var mailEditText: EditText
     lateinit var passEditText: EditText
     lateinit var nameEditText: EditText
+    lateinit var surnameEditText: EditText
 
     private val VALID_EMAIL_ADDRESS_REGEX: Pattern =
         Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)
@@ -56,9 +58,11 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         mailDesText = findViewById(R.id.rgistActivity_emailDescText)
         passDesText = findViewById(R.id.registActivity_passDescText)
         nameDesText = findViewById(R.id.rgistActivity_nameDescText)
+        surnameDesText = findViewById(R.id.rgistActivity_surnameDescText)
         mailEditText = findViewById(R.id.registActivity_emailInput)
         passEditText = findViewById(R.id.registActivity_passwordInput)
         nameEditText = findViewById(R.id.registActivity_nameInput)
+        surnameEditText = findViewById(R.id.registActivity_surnameInput)
 
         setOnClick()
     }
@@ -113,15 +117,13 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
                     RegistrationModel(
                         getText(mailEditText),
                         getText(passEditText),
-                        getText(nameEditText).split(" ")[0],
-                        getText(nameEditText).split(" ")[1],
+                        getText(nameEditText).trim(),
+                        getText(surnameEditText).trim(),
                         "",
                         ""
                     )
                 )
-            }catch (e: Exception){
-                Toast.makeText(applicationContext, "Введите имя и фамилию через пробел", Toast.LENGTH_SHORT).show()
-            }
+            }catch (e: Exception){ }
         }
     }
 
@@ -140,6 +142,11 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         return matcher.find()
     }
 
+    private fun validateSurName(): Boolean {
+        val matcher: Matcher = VALID_NAME_REGEX.matcher(getText(surnameEditText))
+        return matcher.find()
+    }
+
     private fun visibilityDescription(description: TextView, isVisible: Int) {
         description.visibility = isVisible
     }
@@ -148,6 +155,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         val isMailCorrect: Boolean
         val isNameCorrect: Boolean
         val isPassCorrect: Boolean
+        val isSurNameCorrect: Boolean
 
         if (!validatePass()) {
             isPassCorrect = false
@@ -165,6 +173,14 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             visibilityDescription(nameDesText, View.INVISIBLE)
         }
 
+        if (!validateSurName()) {
+            isSurNameCorrect = false
+            visibilityDescription(surnameDesText, View.VISIBLE)
+        } else {
+            isSurNameCorrect = true
+            visibilityDescription(surnameDesText, View.INVISIBLE)
+        }
+
         if (!validateMail()) {
             isMailCorrect = false
             visibilityDescription(mailDesText, View.VISIBLE)
@@ -173,7 +189,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
             visibilityDescription(mailDesText, View.INVISIBLE)
         }
 
-        return isMailCorrect && isPassCorrect && isNameCorrect
+        return isMailCorrect && isPassCorrect && isNameCorrect && isSurNameCorrect
     }
 
     private fun getText(editText: EditText): String {

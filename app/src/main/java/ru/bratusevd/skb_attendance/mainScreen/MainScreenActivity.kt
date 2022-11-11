@@ -15,6 +15,7 @@ import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.account.AccountFragment
 import ru.bratusevd.skb_attendance.mainScreen.calendar.CalendarFragment
 import ru.bratusevd.skb_attendance.mainScreen.news.NewsFragment
+import ru.bratusevd.skb_attendance.mainScreen.settings.SettingsFragment
 
 class MainScreenActivity : AppCompatActivity(),
     BottomNavigationView.OnNavigationItemSelectedListener,
@@ -82,7 +83,11 @@ class MainScreenActivity : AppCompatActivity(),
                 return true
             }
             R.id.item_drawer_settings ->{
-                Toast.makeText(applicationContext, "Этот пункт ещё в разработке", Toast.LENGTH_SHORT).show()
+                val fragment = SettingsFragment()
+                fragment.arguments = passData()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.mainScreenActivity_Container, fragment)
+                    .addToBackStack("").commit()
                 drawer.closeDrawer(GravityCompat.START)
                 return true
             }

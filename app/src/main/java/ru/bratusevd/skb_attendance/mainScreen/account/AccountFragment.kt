@@ -40,6 +40,7 @@ class AccountFragment : Fragment() {
     private lateinit var codeInput: Button
     private lateinit var userImage: ImageView
     private lateinit var userName: TextView
+    private lateinit var userPost: TextView
     private lateinit var userStatus: TextView
     private lateinit var test: LinearLayout
     private lateinit var verificationCode: Verification
@@ -63,8 +64,16 @@ class AccountFragment : Fragment() {
         userImage = root!!.findViewById(R.id.accountFragment_userImage)
         userName = root!!.findViewById(R.id.accountFragment_userName)
         userStatus = root!!.findViewById(R.id.user_status)
+        userPost = root!!.findViewById(R.id.laboratory)
         userStatus.isVisible = readStatus()
         userName.text = tokenModel.getName()
+        val tmp: String = tokenModel.getSettings()
+        userPost.text = try {
+            tmp.replace(";", "\n")
+        } catch (e: Exception) {
+            "Студент"
+        }
+
         setUserImage()
         setOnClick()
     }
