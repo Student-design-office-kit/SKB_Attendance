@@ -36,6 +36,16 @@ import java.time.format.DateTimeFormatter
 class AccountFragment : Fragment() {
 
     private var root: View? = null
+    private var avatarURLs = arrayOf(
+        "https://drive.google.com/uc?export=download&id=1K0jiBEixCLCYsYM3eDKOg-YyzmnzNwSI",
+        "https://drive.google.com/uc?export=download&id=1ZrSF9q76vg5fkRt08dJRh5XYSD7S3056",
+        "https://drive.google.com/uc?export=download&id=1u0JqPdtgBAYjeR7XLrbqeHE87kM9OxU3",
+        "https://drive.google.com/uc?export=download&id=14ibrIOx_qmQPP1dmMo_Jhk3465WVy-Fq",
+        "https://drive.google.com/uc?export=download&id=1Bv5KW28_7AFh-7Ra7_h5pj_q2KM2Ngv3",
+        "https://drive.google.com/uc?export=download&id=1A5gfPCRNwPJNd9tkjLMZ6qwyk_BjtIRp",
+        "https://drive.google.com/uc?export=download&id=1sovv7OYZqzWaaihyfgi8Kh4NiBgoJSt-",
+        "https://drive.google.com/uc?export=download&id=1ScRplrYsxSEqIWwdz3ATFWjWsC5VXfG_"
+    )
 
     private lateinit var codeInput: Button
     private lateinit var userImage: ImageView
@@ -79,8 +89,13 @@ class AccountFragment : Fragment() {
     }
 
     private fun setUserImage() {
+        val photoPosition = try {
+            Integer.parseInt(tokenModel.getPhoto())
+        } catch (e: Exception) {
+            0
+        }
         Glide.with(this)
-            .load("https://s1.1zoom.ru/big0/94/345461-admin.jpg")
+            .load(avatarURLs[photoPosition])
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .into(userImage);
     }
@@ -180,7 +195,7 @@ class AccountFragment : Fragment() {
         return sharedPreferences.getBoolean("status", false)
     }
 
-    private fun writeStatus(status: Boolean){
+    private fun writeStatus(status: Boolean) {
         val sharedPreferences: SharedPreferences = requireContext().getSharedPreferences(
             APP_PREFERENCES, MODE_PRIVATE
         )
@@ -193,7 +208,9 @@ class AccountFragment : Fragment() {
         NetworkServices.getInstance().jsonApi.getCode(token).enqueue(object : Callback<String> {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
-                if ((response?.body().toString() == code) || (("0" + response?.body().toString()) == code)) {
+                if ((response?.body().toString() == code) || (("0" + response?.body()
+                        .toString()) == code)
+                ) {
                     writeVisit()
                     writeStatus(true)
                     Toast.makeText(context, "Успешно", Toast.LENGTH_SHORT).show()
@@ -201,14 +218,18 @@ class AccountFragment : Fragment() {
                     alertDialog.dismiss()
                 } else {
                     test.startAnimation(
-                        TranslateAnimation(0f, 50f,
-                            0f, 0f)
+                        TranslateAnimation(
+                            0f, 50f,
+                            0f, 0f
+                        )
                             .apply {
                                 duration = 300
                             })
                     test.startAnimation(
-                        TranslateAnimation(50f, -50f,
-                            0f, 0f)
+                        TranslateAnimation(
+                            50f, -50f,
+                            0f, 0f
+                        )
                             .apply {
                                 duration = 150
                             })
