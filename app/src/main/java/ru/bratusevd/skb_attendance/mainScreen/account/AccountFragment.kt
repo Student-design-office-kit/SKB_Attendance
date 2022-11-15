@@ -1,6 +1,7 @@
 package ru.bratusevd.skb_attendance.mainScreen.account
 
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
@@ -10,15 +11,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.text.BoringLayout
 import android.util.Log
 import android.view.*
 import android.view.animation.TranslateAnimation
 import android.widget.*
 import androidx.annotation.RequiresApi
-import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -28,6 +26,7 @@ import retrofit2.Response
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.models.VisitModel
+import ru.bratusevd.skb_attendance.services.adapter.CustomAdapter
 import ru.bratusevd.skb_attendance.services.codeInput.Verification
 import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.time.LocalDateTime
@@ -36,15 +35,8 @@ import java.time.format.DateTimeFormatter
 class AccountFragment : Fragment() {
 
     private var root: View? = null
-    private var avatarURLs = arrayOf(
-        "https://drive.google.com/uc?export=download&id=1K0jiBEixCLCYsYM3eDKOg-YyzmnzNwSI",
-        "https://drive.google.com/uc?export=download&id=1ZrSF9q76vg5fkRt08dJRh5XYSD7S3056",
-        "https://drive.google.com/uc?export=download&id=1u0JqPdtgBAYjeR7XLrbqeHE87kM9OxU3",
-        "https://drive.google.com/uc?export=download&id=14ibrIOx_qmQPP1dmMo_Jhk3465WVy-Fq",
-        "https://drive.google.com/uc?export=download&id=1Bv5KW28_7AFh-7Ra7_h5pj_q2KM2Ngv3",
-        "https://drive.google.com/uc?export=download&id=1A5gfPCRNwPJNd9tkjLMZ6qwyk_BjtIRp",
-        "https://drive.google.com/uc?export=download&id=1sovv7OYZqzWaaihyfgi8Kh4NiBgoJSt-",
-        "https://drive.google.com/uc?export=download&id=1ScRplrYsxSEqIWwdz3ATFWjWsC5VXfG_"
+    private var avatarURLs = listOf(
+        "https://coolsen.ru/wp-content/uploads/2021/06/15-8.jpg"
     )
 
     private lateinit var codeInput: Button
@@ -95,9 +87,9 @@ class AccountFragment : Fragment() {
             0
         }
         Glide.with(this)
-            .load(avatarURLs[photoPosition])
+            .load(avatarURLs[0])
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(userImage);
+            .into(userImage)
     }
 
     private fun setOnClick() {
@@ -105,7 +97,20 @@ class AccountFragment : Fragment() {
         onUserImageClick()
     }
 
-    private fun onUserImageClick() {}
+    private fun onUserImageClick() {
+        userImage.setOnClickListener{
+            //showDialog()
+        }
+    }
+
+    private fun showDialog() {
+        val mDialogView = LayoutInflater.from(context).inflate(R.layout.avatar_alert, null)
+        val mBuilder = AlertDialog.Builder(context)
+        val adapter = CustomAdapter(requireContext(), R.layout.avatar_item, avatarURLs)
+        mDialogView.findViewById<GridView>(R.id.gvMain).adapter = adapter
+        mBuilder.setView(mDialogView)
+        mBuilder.show()
+    }
 
     private fun onInputCodeClick() {
         codeInput.setOnClickListener {
