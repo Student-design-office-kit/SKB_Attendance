@@ -38,7 +38,7 @@ class RegistrationActivity : AppCompatActivity(), View.OnClickListener {
         Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE)
 
     private val VALID_PASS_REGEX: Pattern =
-        Pattern.compile("^[a-zA-Z0-9]{8,32}+$", Pattern.CASE_INSENSITIVE)
+        Pattern.compile("^[a-zA-Z0-9_]{8,32}+$", Pattern.CASE_INSENSITIVE)
 
     private val VALID_NAME_REGEX: Pattern =
         Pattern.compile("^[А-Яа-я, .'-]{2,32}+$", Pattern.CASE_INSENSITIVE)
