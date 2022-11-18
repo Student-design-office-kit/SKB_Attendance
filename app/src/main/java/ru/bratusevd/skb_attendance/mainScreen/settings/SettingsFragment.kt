@@ -1,7 +1,10 @@
 package ru.bratusevd.skb_attendance.mainScreen.settings
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import retrofit2.Call
 import retrofit2.Response
@@ -25,6 +29,7 @@ import ru.bratusevd.skb_attendance.mainScreen.models.NewsModel
 import ru.bratusevd.skb_attendance.models.RegistrationModel
 import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.models.UserModel
+import ru.bratusevd.skb_attendance.services.avatarPicker.CustomAvatarPicker
 import ru.bratusevd.skb_attendance.services.network.NetworkServices
 import java.util.regex.Matcher
 import java.util.regex.Pattern
@@ -46,7 +51,18 @@ class SettingsFragment : Fragment(), OnClickListener {
     private val VALID_NAME_REGEX: Pattern =
         Pattern.compile("^[А-Яа-я, .'-]{2,32}+$", Pattern.CASE_INSENSITIVE)
 
-    private lateinit var userImage: ImageView
+    private var avatarURLs = listOf(
+        "https://drive.google.com/uc?export=download&id=1K0jiBEixCLCYsYM3eDKOg-YyzmnzNwSI",
+        "https://drive.google.com/uc?export=download&id=1ZrSF9q76vg5fkRt08dJRh5XYSD7S3056",
+        "https://drive.google.com/uc?export=download&id=1u0JqPdtgBAYjeR7XLrbqeHE87kM9OxU3",
+        "https://drive.google.com/uc?export=download&id=14ibrIOx_qmQPP1dmMo_Jhk3465WVy-Fq",
+        "https://drive.google.com/uc?export=download&id=1Bv5KW28_7AFh-7Ra7_h5pj_q2KM2Ngv3",
+        "https://drive.google.com/uc?export=download&id=1A5gfPCRNwPJNd9tkjLMZ6qwyk_BjtIRp",
+        "https://drive.google.com/uc?export=download&id=1sovv7OYZqzWaaihyfgi8Kh4NiBgoJSt-",
+        "https://drive.google.com/uc?export=download&id=1ScRplrYsxSEqIWwdz3ATFWjWsC5VXfG_"
+    )
+
+    private lateinit var userImage: CustomAvatarPicker
     private lateinit var userName: EditText
     private lateinit var nameDesText: TextView
     private lateinit var mailDesText: TextView
@@ -97,7 +113,6 @@ class SettingsFragment : Fragment(), OnClickListener {
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.settingsActivity_saveButton -> {
-
                 if (checkValidation()) {
                     userModel = UserModel(
                         tokenModel.getId(),
@@ -105,7 +120,7 @@ class SettingsFragment : Fragment(), OnClickListener {
                         getPassFromPref(),
                         userName.text.toString(),
                         userSurname.text.toString(),
-                        tokenModel.getPhoto(),
+                        userImage.link,
                         tokenModel.getSettings()
                     )
 

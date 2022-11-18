@@ -7,18 +7,22 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="230dp"
-        android:layout_height="230dp"
+        android:layout_height="0dp"
         app:cardCornerRadius="130dp"
-        android:layout_marginTop="30dp"
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/settingsActivity_userImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"/>
 
     </androidx.cardview.widget.CardView>
+
+    <ru.bratusevd.skb_attendance.services.avatarPicker.CustomAvatarPicker
+        android:layout_marginTop="30dp"
+        android:id="@+id/settingsActivity_userImage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/settingsActivity_surnameLayout"

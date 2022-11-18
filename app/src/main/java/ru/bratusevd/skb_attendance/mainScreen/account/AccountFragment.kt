@@ -36,7 +36,14 @@ class AccountFragment : Fragment() {
 
     private var root: View? = null
     private var avatarURLs = listOf(
-        "https://coolsen.ru/wp-content/uploads/2021/06/15-8.jpg"
+        "https://drive.google.com/uc?export=download&id=1K0jiBEixCLCYsYM3eDKOg-YyzmnzNwSI",
+        "https://drive.google.com/uc?export=download&id=1ZrSF9q76vg5fkRt08dJRh5XYSD7S3056",
+        "https://drive.google.com/uc?export=download&id=1u0JqPdtgBAYjeR7XLrbqeHE87kM9OxU3",
+        "https://drive.google.com/uc?export=download&id=14ibrIOx_qmQPP1dmMo_Jhk3465WVy-Fq",
+        "https://drive.google.com/uc?export=download&id=1Bv5KW28_7AFh-7Ra7_h5pj_q2KM2Ngv3",
+        "https://drive.google.com/uc?export=download&id=1A5gfPCRNwPJNd9tkjLMZ6qwyk_BjtIRp",
+        "https://drive.google.com/uc?export=download&id=1sovv7OYZqzWaaihyfgi8Kh4NiBgoJSt-",
+        "https://drive.google.com/uc?export=download&id=1ScRplrYsxSEqIWwdz3ATFWjWsC5VXfG_"
     )
 
     private lateinit var codeInput: Button
@@ -69,13 +76,13 @@ class AccountFragment : Fragment() {
         userPost = root!!.findViewById(R.id.laboratory)
         userStatus.isVisible = readStatus()
         userName.text = tokenModel.getName()
-        val tmp: String = tokenModel.getSettings()
+        var tmp: String = tokenModel.getSettings()
+        if (tmp.isEmpty()) tmp = "Студент"
         userPost.text = try {
             tmp.replace(";", "\n")
         } catch (e: Exception) {
             "Студент"
         }
-
         setUserImage()
         setOnClick()
     }
@@ -86,10 +93,19 @@ class AccountFragment : Fragment() {
         } catch (e: Exception) {
             0
         }
-        Glide.with(this)
-            .load(avatarURLs[0])
-            .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .into(userImage)
+
+        if (tokenModel.getPhoto().isNotEmpty()) {
+            Glide.with(this)
+                .load(tokenModel.getPhoto())
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(userImage)
+        } else {
+            Glide.with(this)
+                .load(avatarURLs[photoPosition])
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .into(userImage)
+        }
+
     }
 
     private fun setOnClick() {
@@ -98,7 +114,7 @@ class AccountFragment : Fragment() {
     }
 
     private fun onUserImageClick() {
-        userImage.setOnClickListener{
+        userImage.setOnClickListener {
             //showDialog()
         }
     }
