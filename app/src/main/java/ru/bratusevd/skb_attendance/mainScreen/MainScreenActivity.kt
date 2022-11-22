@@ -37,7 +37,7 @@ class MainScreenActivity : AppCompatActivity(),
 
         bottomNavigationView = findViewById(R.id.mainScreenActivity_NavigationView)
         bottomNavigationView.setOnNavigationItemSelectedListener(this@MainScreenActivity)
-        bottomNavigationView.selectedItemId = R.id.navigation_news
+        bottomNavigationView.selectedItemId = R.id.navigation_account
 
     }
 

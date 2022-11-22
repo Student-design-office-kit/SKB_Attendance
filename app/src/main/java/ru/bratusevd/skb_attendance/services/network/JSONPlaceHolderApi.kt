@@ -2,6 +2,9 @@ package ru.bratusevd.skb_attendance.services.network
 
 import retrofit2.Call
 import retrofit2.http.*
+import ru.bratusevd.skb_attendance.mainScreen.models.NewsModel
+import ru.bratusevd.skb_attendance.mainScreen.models.NewsRequest
+import ru.bratusevd.skb_attendance.mainScreen.models.NewsResponse
 import ru.bratusevd.skb_attendance.models.*
 
 interface JSONPlaceHolderApi {
@@ -13,6 +16,9 @@ interface JSONPlaceHolderApi {
 
     @POST("login")
     fun login(@Body loginModel: LoginModel): Call<ArrayList<TokenModel>>
+
+    @POST("newsfeed")
+    fun getNews(@Body newsRequest: NewsRequest): Call<ArrayList<NewsResponse>>
 
     @GET("code")
     fun getCode(@Header("Authorization") token: String): Call<String>
