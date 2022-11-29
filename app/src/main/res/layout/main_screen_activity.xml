@@ -10,7 +10,7 @@
     <androidx.drawerlayout.widget.DrawerLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
+        android:layout_marginBottom="56dp"
         android:id="@+id/drawer_layout">
 
         <FrameLayout

@@ -1,12 +1,11 @@
 package ru.bratusevd.skb_attendance.models
 
 class UserModel(
-    private val userId: String,
-    private val email: String,
-    private val password: String,
-    private val userName: String,
-    private val userLastName: String,
-    private val userPhoto: String = "",
-    private val userSetting: String = ""
-){
-}
+    val userId: String,
+    val email: String,
+    val password: String,
+    val userName: String,
+    val userLastName: String,
+    val userPhoto: String = "",
+    val userSetting: String = ""
+)

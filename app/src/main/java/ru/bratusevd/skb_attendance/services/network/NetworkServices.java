@@ -7,7 +7,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkServices {
     private static NetworkServices mInstance;
     private static final String BASE_URL =
-            "https://skb-attendance-server.herokuapp.com/api/"; //адрес сервера
+            "https://skb-project-server-bratusev07.vercel.app/api/"; //адрес сервера
     private Retrofit mRetrofit; // Объект для отправки запросов
 
     /** Конструктор класса */

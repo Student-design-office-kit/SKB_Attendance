@@ -28,4 +28,7 @@ interface JSONPlaceHolderApi {
         @Header("Authorization") token: String,
         @Body visitModel: VisitModel
     ): Call<Void>
+
+    @GET("getUser")
+    fun getUserInfo(@Header("Authorization") token: String, @Query("userID") userID: String): Call<ru.bratusevd.skb_attendance.mainScreen.models.UserModel>
 }

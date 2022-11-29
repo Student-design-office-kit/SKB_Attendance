@@ -27,6 +27,10 @@ class TokenModel(
         return access
     }
 
+    fun setVisits(timeModels : ArrayList<TimeModel>){
+        visits = timeModels
+    }
+
     fun getFirstName(): String {
         return userName;
     }

@@ -1,22 +1,24 @@
 package ru.bratusevd.skb_attendance.mainScreen.calendar
 
+import android.annotation.SuppressLint
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ListView
-import android.widget.Spinner
-import android.widget.Toast
+import android.view.*
+import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.github.mikephil.charting.charts.BarChart
 import com.github.mikephil.charting.data.BarData
 import com.github.mikephil.charting.data.BarDataSet
 import com.github.mikephil.charting.data.BarEntry
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import ru.bratusevd.skb_attendance.R
 import ru.bratusevd.skb_attendance.mainScreen.adapters.StoryAdapter
 import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
+import ru.bratusevd.skb_attendance.mainScreen.models.UserModel
 import ru.bratusevd.skb_attendance.models.TokenModel
+import ru.bratusevd.skb_attendance.services.network.NetworkServices
 
 
 class CalendarFragment : Fragment() {
@@ -27,6 +29,7 @@ class CalendarFragment : Fragment() {
     private lateinit var storyList: ListView
     private lateinit var filter_spinner: Spinner
     private lateinit var barChart: BarChart
+    private lateinit var mSwipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,10 +42,44 @@ class CalendarFragment : Fragment() {
         return root
     }
 
+    private fun updateInfo() {
+        NetworkServices.getInstance().jsonApi.getUserInfo(
+            tokenModel.getAccess(),
+            tokenModel.getId()
+        ).enqueue(object :
+            Callback<UserModel> {
+            override fun onResponse(
+                call: Call<UserModel>,
+                response: Response<UserModel>
+            ) {
+                if (response.isSuccessful) {
+                    tokenModel.setVisits(response.body()?.user!!.visits)
+                    setAdapter()
+                    mSwipeRefreshLayout.isRefreshing = false
+                } else
+                    Toast.makeText(
+                        context,
+                        response.message() + " " + response.code(),
+                        Toast.LENGTH_SHORT
+                    ).show()
+            }
+
+            override fun onFailure(call: Call<UserModel>, t: Throwable) {
+                Toast.makeText(context, t.message, Toast.LENGTH_SHORT).show()
+            }
+
+        })
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
     private fun findViews() {
         storyList = root!!.findViewById(R.id.accountFragment_storyList)
         barChart = root!!.findViewById(R.id.barChart)
         filter_spinner = root!!.findViewById(R.id.filter_spinner)
+        mSwipeRefreshLayout = root!!.findViewById(R.id.calendarFragment)
+        mSwipeRefreshLayout.setOnRefreshListener {
+            updateInfo()
+        }
         setAdapter()
     }
 
@@ -155,7 +192,7 @@ class CalendarFragment : Fragment() {
             }
         }
 
-        if(timeModels.size > 1 && count == 0){
+        if (timeModels.size > 1 && count == 0) {
             entries.add(BarEntry(tmp, count))
             labels.add(timeModels[0].getDate())
         }
@@ -170,7 +207,8 @@ class CalendarFragment : Fragment() {
                 entries.add(BarEntry(tmp, count))
                 labels.add(timeModels[timeModels.size - 1].getDate())
             }
-        } catch (e: Exception) { }
+        } catch (e: Exception) {
+        }
         val barDataSet = BarDataSet(entries, "Hours")
         barDataSet.color = resources.getColor(R.color.progressbar_leftGradient)
         return BarData(labels, barDataSet)
@@ -231,5 +269,4 @@ class CalendarFragment : Fragment() {
         res = (hours + (minutes.toFloat() / 60))
         return res
     }
-
 }
