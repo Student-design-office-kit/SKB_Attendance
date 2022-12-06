@@ -229,8 +229,8 @@ class AccountFragment : Fragment() {
         NetworkServices.getInstance().jsonApi.getCode(token).enqueue(object : Callback<String> {
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onResponse(call: Call<String>?, response: Response<String>?) {
-                if ((response?.body().toString() == code) || (("0" + response?.body()
-                        .toString()) == code)
+                if ((response?.body().toString().split("or")[0] == code ||
+                            response?.body().toString().split("or")[1] == code)
                 ) {
                     writeVisit()
                     writeStatus(true)

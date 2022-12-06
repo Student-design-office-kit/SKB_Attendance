@@ -1,6 +1,7 @@
 package ru.bratusevd.skb_attendance.mainScreen.calendar
 
 import android.annotation.SuppressLint
+import android.os.Build
 import android.os.Bundle
 import android.view.*
 import android.widget.*
@@ -19,6 +20,8 @@ import ru.bratusevd.skb_attendance.mainScreen.models.TimeModel
 import ru.bratusevd.skb_attendance.mainScreen.models.UserModel
 import ru.bratusevd.skb_attendance.models.TokenModel
 import ru.bratusevd.skb_attendance.services.network.NetworkServices
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
 class CalendarFragment : Fragment() {
@@ -55,6 +58,8 @@ class CalendarFragment : Fragment() {
                 if (response.isSuccessful) {
                     tokenModel.setVisits(response.body()?.user!!.visits)
                     setAdapter()
+                    storyList.adapter = StoryAdapter(requireContext(), visitFilter(fillArray()))
+                    setBarChart()
                     mSwipeRefreshLayout.isRefreshing = false
                 } else
                     Toast.makeText(
@@ -110,6 +115,12 @@ class CalendarFragment : Fragment() {
     private fun visitFilter(
         timeModels: ArrayList<TimeModel>,
     ): ArrayList<TimeModel> {
+        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            DateTimeFormatter.ofPattern("MM")
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
+        val currentVisit = LocalDateTime.now().format(formatter)
         when (filter_spinner.selectedItem.toString()) {
             "7 дней" -> {
                 return last7Days(timeModels)
@@ -118,7 +129,7 @@ class CalendarFragment : Fragment() {
                 return last30Days(timeModels)
             }
             "Текущий месяц" -> {
-                return month(timeModels, "11")
+                return month(timeModels, currentVisit)
             }
         }
 

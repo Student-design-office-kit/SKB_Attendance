@@ -20,7 +20,7 @@ interface JSONPlaceHolderApi {
     @POST("newsfeed")
     fun getNews(@Body newsRequest: NewsRequest): Call<ArrayList<NewsResponse>>
 
-    @GET("code")
+    @GET("twoCodes")
     fun getCode(@Header("Authorization") token: String): Call<String>
 
     @POST("uploadVisit")
